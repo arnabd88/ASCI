@@ -1,0 +1,16 @@
+
+function [xkp1, iter] = secantMethod( func, x0, x1, atol )
+	
+	xkp1 = x1 ;
+	xk = x0 ;
+	xkm1 = 0 ;
+	iter = 0;
+	
+	while(abs(xkp1 - xk) > atol)
+		xkm1 = xk;
+		xk = xkp1;
+		xkp1 = xk - (func(xk)*(xk - xkm1))/(func(xk) - func(xkm1));
+		iter = iter + 1;
+		fprintf('Xnext = %20.14f \n', xkp1);
+	end
+end
