@@ -105,11 +105,60 @@ The algorithm to find the solution for $Ax=b$ is detailed below
 
   \textbf {Explanation: } To evaluate Ax=b, from the given conditions, we first perform a matvec of T and b which is $O(n^2)$, since it invloves a matrix-vector multiplication of $n \times n$ matrix T, and a $n \times 1$ vector b. In second step we solve for y using forward substitution since there is a lower triangular matrix. This step also involves $O(n^2)$ operations. The third step involves the evaluation of the final solution \textbf {x}, and since there is an upper triangular matrix, we use backward substitution which is again $O(n^2)$. Thus total flops required is in order of $O(n^2)$. \newline
 
-\pseudoCode:
+\pseudoCode \newline
+\hspace*{0.5cm} \textbf {SolveForX} (L, U, T, b, x) \newline
+\hspace*{1cm}       \textbf {for} i=1:n \newline
+ \hspace*{1.5cm}       sum = 0 \newline
+ \hspace*{1.5cm}       for j=1:n \newline
+  \hspace*{2cm}              sum +=$ T_{i,j}$ *$ b_{j}$ \newline
+ \hspace*{1.5cm}      $G_{i}$ = sum \newline
+ \hspace*{1cm}    // G is the matvec result of Tb \newline
+ \hspace*{1cm}   // Solve for Ly = G = Tb by forward substitution \newline
+ \hspace*{1cm}   \textbf {for} k=1:n \newline
+ \hspace*{1.5cm}    $y_{k}$ = $\dfrac{G_{k} - \sum_{j=1}^{k-1}L_{k,j}y_{j}}{L_{k,k}}$ \newline
+\hspace*{1cm}  // Solve for Ux = y by backward substitution \newline
+\hspace*{1cm}   \textbf {for} k=1:n \newline
+\hspace*{1.5cm}   $x_{k}$ = $\dfrac{y_{k} - \sum_{j=k+1}^n U_{k,j}x_{j}}{U_{k,k}}$
+
   
+  \question{Question-4}{Chapter-5: Exercise-4}
+To find the inverse of a matrix, A , one of the simplest mechanism to do so in linear algebra is to augment the matrix A with a identity matrix of the same size. Then perform a sequence of operations such that the region of A is replaced by an identity matrix and in that case the region of the augmented matrix where the identity matrix was initiallly added, contains the inverse of the matrix, A. \newline
+Suppose , we are given an $n \times n$ matrix whose matrix we need to find. Suppose by performing k number of matrix operations, each operation represented as $T_{1}$, we can derive the identity matrix from A, which means we can write the following: \newline
+$T_{1}T_{2}T_{3} \dots T_{k} A = I$ \newline
+Multiply both sides by the inverse: \newline
+$T_{1}T_{2}T_{3} \dots T_{k} A A^{-1}= IA^{-1}$ \newline
+$T_{1}T_{2}T_{3} \dots T_{k} I= A^{-1}$ \newline
+which means the same sequence of operations, when applied on the diagonal matrix of the same size, will yeld the inverse of the matrix,A. \newline
+
+Once, we augment A with  the diagonal matrix, the size of the overall matrix becomes $n \times 2n$. Let us call this matrix B. The pseudocde for obtaining inverse from B using GaussJordan is described below: \newline
+
+\pseudoCode \newline
+\hspace*{0.5cm} \textbf {for} k=1 : $n-1$ \newline
+\hspace*{1cm}      \textbf {for} i=1 : n \newline
+\hspace*{1.5cm}     \textbf {if} (i $\neq$ k) \newline
+\hspace*{2cm}            $l_{i,k}$ = $\dfrac{b_{i,k}}{b_{k,k}}$ \newline
+\hspace*{2cm}               \textbf {for} $j=k+1 : 2n$ \newline
+\hspace*{2.5cm}               $ b_{i,j}$ =  $b_{i,j} - l_{i,k}b_{k,j}$ \newline
+\hspace*{1cm}    diag\_temp = $b_{k,k}$ \newline
+\hspace*{1cm}    \textbf for $j=k:2n$ \newline
+\hspace*{1.5cm}                 $b_{k,j} = \dfrac{b_{k,j}}{diag\_temp}$ \newline
+%\hspace*{2cm}              $b_{i}$ = $b_{i} - l_{i,k}b_{k}$
+
+The computation cost required for thisn operation in terms of floating point operations can be com[puted as follows: \newline
   
-  
-  
+\begin{align*}
+  \sum_{k=1}^{n-1} 2(2n-k)(n-1) + (n-1) + (2n - k + 1) \\
+ &= \sum_{k=1}^{n-1} (4n - 2k)(n-1) + 3n - k \\
+ &= \sum_{k=1}^{n-1} 4n^2 -4n -2nk + 2k + 3n - k \\
+ &= \sum_{k=1}^{n-1} 4n^2 -n -2nk + k \\
+&= 4n^2(n-1) -n(n-1) -n^2(n-1) +\dfrac{n(n-1)}{2} \\
+&= 3n^3 + O(n^2) \\
+\end{align*}
+
+The same task performed using LU Decomposition requires $\dfrac{8}{3}n^3 + O(n^2)$ operation count. Thus, in the order of $n^3$, this method requires $\dfrac{1}{3}n^3$ more operation count. 
+
+
+
 \end{document} 
 
 
