@@ -1,4 +1,6 @@
 \documentclass{article}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{graphicx}
 \usepackage[margin=1in]{geometry}
@@ -8,7 +10,7 @@
 \setlength{\headheight}{13.6pt}
 \newcommand\question[2]{\vspace{.25in}\hrule\textbf{#1: #2}\hrule\vspace{.10in}}
 \renewcommand\part[1]{\vspace{.10in}\textbf{(#1)}}
-\newcommand\algorithm{\vspace{.10in}\textbf{Algorithm: }}
+\newcommand\algo{\vspace{.10in}\textbf{Algorithm: }}
 \newcommand\correctness{\vspace{.10in}\textbf{Correctness: }}
 \newcommand\runtime{\vspace{.10in}\textbf{Running time: }}
 \newcommand\pseudoCode{\vspace{.10in}\textbf{PseudoCode: }}
@@ -31,11 +33,79 @@
   \newcommand\HWNUM{3}
   
    \question{Question-1}{Chapter-4: Exercise-12}
+     The condition number of an eigen value, $\lambda$ , of a matrix A is defined as \newline
+     \[ s(\lambda) = \dfrac{1}{\textbf {x}^T\textbf{w}}\] \newline
+     Referencing from example 4.7/4.6, let is define the two matrices as: \newline
+     $A_{1}$ = 
+$\begin{bmatrix}
+  4 & 0 \\
+  0 &  4 \\
+\end{bmatrix}$ and $A_{2}$ = 
+$\begin{bmatrix}
+ 4 & 1 \\
+ 0 & 4 \\
+\end{bmatrix}$ \newline
+
+Both the matrices have eigen value of 4 with algebraic multiplicaity 2, that is both its eigen values are 4,4. \newline
+Now first let us consider $A_{1}$. Its eigen vectors corresponding to eigen valuesm of 4 are \textbf {$x_{1}$} = $\begin{bmatrix} 1 \\ 0 \\ \end{bmatrix}$ and $x_{2}$ = $\begin{bmatrix} 0 \\ 1 \\ \end{bmatrix}$. Thus the geometric multiplicity is also 2. The left eigen vectors, \textbf {$w^T$}, will be $w_{1}^T$ = $\begin{bmatrix} 1 & 0 \\ \end{bmatrix}$ and $w_{2}^T$ = $\begin{bmatrix} 0 & 1 \\ \end{bmatrix}$. \newline
+Thus, for each of the above eigen vectors for $A_{1}$, the inner product $\dfrac{1}{\textbf {x}^T\textbf{w}}$ is 1, hence the condition number turns out to be, \newline
+\begin{equation}
+  S(\lambda = 4)_{A_{1}} = 1
+\end{equation}
+Let us consider $A_{2}$ for now. The eigen values for $A_{2}$ is 4 with algebraic multiplicity 2. However , it has only one right eigen vector, $x_{1}$ = $\begin{bmatrix} 0 \\ 1 \\ \end{bmatrix}$, and only one left eigen vector, $w_{1}^T$ = $\begin{bmatrix} 0 & 1 \\ \end{bmatrix}$. \newline
+Thus, for the above pair of left and right eigen vector for $A_{2}$, the inner product $\dfrac{1}{\textbf {x}^T\textbf{w}}$ is $\dfrac{1}{0} = \infty$. Hence the condition number turns out to be \newline
+\begin{equation}
+  S(\lambda = 4)_{A_{2}} = \infty
+\end{equation}
+Condition numbers indicate how stable the computation is expected to be, such that lower computation numbers indicate more stability. If we refer to example-4.7, where the experiment was done with small perturbation to the matrix, $A_{1}$ came to be well-conditioned while $A_{2}$ came to be ill-conditioned. Our evaluation of the condition number also suggests that since condition number for $A_{1}$ is small it is numerically more stable and hence well conditioned while $A_{2}$ has condition number number of $\infty$ and hence ill-conditioned. \newline
+
+\question{Question-2}{Chapter-5: Exercise-2}
+For an $n \times n$ matrix A, and a vector vector b, the pseudoCode for the Gauss-Jordan elimination method for Solving $Ax = b$, is as described below(Assuming no pivoting):
+
+\part{a}
+\pseudoCode \newline
+\hspace*{0.5cm} \textbf {for} k=1 : $n-1$ \newline
+\hspace*{1cm}      \textbf {for} i=1 : n \newline
+\hspace*{1.5cm}     \textbf {if} (i $\neq$ k) \newline
+\hspace*{2cm}            $l_{i,k}$ = $\dfrac{a_{i,k}}{a_{k,k}}$ \newline
+\hspace*{2cm}               \textbf {for} $j=k+1 : n$ \newline
+\hspace*{2.5cm}               $ a_{i,j}$ =  $a_{i,j} - l_{i,k}a_{k,j}$ \newline
+\hspace*{2cm}              $b_{i}$ = $b_{i} - l_{i,k}b_{k}$
   
-  
-  
-  
-  
+  Since, it does the update for all rows except the row k, one \textbf{ if} condition is introduced to check for $i \neq k$, and the row traversal instead of $k+1$ to n, has been increased as 1 to n.
+
+
+
+\part{b} The cost of the Gauss-Jordan algorithm in terms of operation count(or flop count) is as follows: \newline
+\begin{align*}
+  \sum_{k=1}^{n-1} 2(n-1)(n-k) + 2(n-1) + (n-1) \\
+ &=\sum_{k=1}^{n-1} 2(n-1)(n-k+1) + (n-1) \\
+&=(n-1) \sum_{k=1}^{n-1} 2(n-k+1) + 1 \\
+&=(n-1) \sum_{k=1}^{n-1}(2n - 2k + 3) \\
+&=(n-1) \bigg( 2n(n-1) -2\dfrac{n(n-1)}{2} + 3(n-1) \bigg) \\
+&=(n-1)^2 \bigg( 2n - n + 3 \bigg) \\
+&=(n-1)^2 ( n+3 ) \\
+&=n^3 - 2n^2 + n + 3n^2 -6n + 3 \\
+&= n^3 + O(n^2) \\
+\end{align*}
+(Proved).
+
+
+\question{Question-3}{Chapter-5: Exercise-3}
+Let A and T be two non-singular, $n \times n$ matrices. Furthermore, we are given two matrices, L and U such that L is unit lower triangular and U is upper triangular and the following relation holds: \newline
+\begin{equation}
+   TA = LU
+\end{equation}
+The algorithm to find the solution for $Ax=b$ is detailed below
+
+\algo:\newline
+\textbf {Step-1:} Perform a matvec operation to evaluate \textbf {Tb}. \newline
+\textbf {Step-2:} Solve for y: Ly = Tb ; //By forward substitution \newline
+\textbf {Step-3:} Solve for x: Ux = y ; //By backward substituion \newline
+
+  \textbf {Explanation: } To evaluate Ax=b, from the given conditions, we first perform a matvec of T and b which is $O(n^2)$, since it invloves a matrix-vector multiplication of $n \times n$ matrix T, and a $n \times 1$ vector b. In second step we solve for y using forward substitution since there is a lower triangular matrix. This step also involves $O(n^2)$ operations. The third step involves the evaluation of the final solution \textbf {x}, and since there is an upper triangular matrix, we use backward substitution which is again $O(n^2)$. Thus total flops required is in order of $O(n^2)$. \newline
+
+\pseudoCode:
   
   
   
