@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/W32TeX) (preloaded format=pdflatex 2016.10.2)  4 OCT 2016 21:23
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/W32TeX) (preloaded format=pdflatex 2016.10.2)  4 OCT 2016 22:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -762,11 +762,66 @@ Underfull \hbox (badness 10000) in paragraph at lines 233--234
 
  []
 
-[6] (./Assignment3.aux) ) 
+
+Underfull \hbox (badness 10000) in paragraph at lines 238--239
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 240--257
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 258--259
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 260--266
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 267--268
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 269--270
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 271--272
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 273--280
+
+ []
+
+[6]
+Underfull \hbox (badness 10000) in paragraph at lines 293--298
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 299--300
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 301--306
+
+ []
+
+[7] (./Assignment3.aux) ) 
 Here is how much of TeX's memory you used:
  3973 strings out of 493013
  51345 string characters out of 6136993
- 128988 words of memory out of 5000000
+ 131988 words of memory out of 5000000
  7437 multiletter control sequences out of 15000+600000
  11210 words of font info for 44 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -781,10 +836,10 @@ s/type1/public/amsfonts/cm/cmr17.pfb><d:/texlive/2016/texmf-dist/fonts/type1/pu
 blic/amsfonts/cm/cmr5.pfb><d:/texlive/2016/texmf-dist/fonts/type1/public/amsfon
 ts/cm/cmr7.pfb><d:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy1
 0.pfb><d:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
-Output written on Assignment3.pdf (7 pages, 139837 bytes).
+Output written on Assignment3.pdf (8 pages, 145142 bytes).
 PDF statistics:
- 72 PDF objects out of 1000 (max. 8388607)
- 51 compressed objects within 1 object stream
+ 75 PDF objects out of 1000 (max. 8388607)
+ 53 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -234,7 +234,79 @@ Since L and $L^\prime$ has the same sparsity structure, the product $P^TL^\prime
 
 
 
+\question{Question-7}{Chapter-5: Exercise-21}
+Given arrow matrices: \newline
 
+A = $\begin{bmatrix} 
+x & x & x & x & \dots & x \\
+x & x & 0 & 0 & \dots & 0 \\
+x & 0 & x & 0 & \dots& 0 \\
+\dots & \dots & \dots & \dots & \dots & \dots \\
+x & 0 & 0 & \dots & x & 0 \\
+x & 0 & 0 & \dots & 0 & x \\
+\end{bmatrix}$ and 
+B = $\begin{bmatrix}
+x & 0 & 0 & \dots & 0 & x \\
+0 & x & 0 & \dots & 0 & x \\
+0 & 0 & x & \dots & 0 & x \\
+\dots & \dots & \dots & \dots & \dots & \dots \\
+0 & 0 & 0 & \dots & x & x \\
+x & x & x & \dots & x & x \\
+\end{bmatrix}$ where $x$ denotes non-zero values. \newline 
+For the matrix, A, even though it is sparse arrow matrix, even in the first step, as we try solve for Gauss-elimination, a lot of fill-in occurs while trying to zero out the first column. Thus it becomes dense after the first step. This means, rest of the computation for matrix A will have the computation cost same as the dense matrix computations solved earlier , that is $O(n^3)$ while the storage will require full matrix storage, that is , $O(n^2)$. \newline
+
+Interesting things happen with the B matrix since its sparsity structure can be effectively utilized while zeroing out the column elements. The following modified pseudocode will suit the operations on the matrix B for generating the L and U matrices. \newline
+
+\pseudoCode \newline
+\hspace*{0.5cm} \textbf {for} k=1:n-1 \newline
+\hspace*{1cm}        $l_{n,k}$ = $\dfrac{a_{n,k}}{a_{k,k}}$ \newline
+\hspace*{1cm}        $a_{n,k}$ = 0 \newline
+\hspace*{1cm}        $a_{n,n}$ = $a_{n,n} - l_{n,k}*a_{k,n}$ \newline
+\hspace*{1cm}        $b_{n}$  = $b_{n} - l_{n,k}*b_{k}$ \newline
+
+At a specific k, we do not iterate over the rest of the rows after k, except the last row, since others will have their values in k'th column as 0. Also, when we are considering the last row, effectively we are zeroing out its element in the k'th column, hence assigning $a_{n,k}=0$. Since in the k'th row, we have non-zeros only in the k'th column and the last column, hence the update rule applies only to the n;th column in the n'th row. Similarly, we can also update the b vector's $b_{n}$ element. \newline
+
+Thus the cost of operation becomes = \textbf {5(n-1)} $\approx O(n)$. \newline
+
+In general the L and U matrices can be stored together in a compact form as shown below, with the original matrix discarded\newline
+
+$\begin{bmatrix}
+ u_{11} & u_{12} & u_{13} & \dots & u_{1n} \\
+  l_{21} & u_{22} & u_{23} & \dots & u_{2n} \\
+  l_{31} & l_{32} & u_{33} & \dots & u_{3n} \\
+ \dots & \dots & \dots & \dots & \dots \\
+  l_{n1} & l_{n2} & \dots & l_{n,n-1} & u_{nn} \\
+\end{bmatrix}$, where we are not storing the unit diagonal elements of the L matrix. \newline
+
+Similarly, we can store the $l_{i,j}$ and $u_{i,j}$ values in such a compact way , such that the matrix looks as below: \newline
+C = $\begin{bmatrix}
+ u_{11} & 0 & 0 & \dots & u_{1n} \\
+  0 & u_{22} & 0 & \dots & u_{2n} \\
+  0 & 0 & u_{33} & \dots & u_{3n} \\
+ \dots & \dots & \dots & \dots & \dots \\
+  0 & 0 & \dots & u_{n-1,n-1} & u_{n-1,n} \\
+  l_{n1} & l_{n2} & \dots & l_{n,n-1} & u_{nn} \\
+\end{bmatrix}$
+
+Thus storage required in this case is $\approx 3n$ or $\approx O(n)$ .
+
+For solving the LUx=b, we first solve Ly=b, and the computation for forward substituion will follow the below reduced code: \newline
+\pseudoCode \newline
+  \textbf {for} k=1:n-1 \newline
+  \hspace*{1cm} $y_{k} = b_{k}$ \newline
+   $y_{n}$ = $\dfrac{b_{n} - \sum_{j=1}^{n-1} C_{n,j}y_{j}}{1}$ \newline
+
+ \textbf {Cost for forward substitution} = 2n $\approx  O(n)$ \newline
+
+Next, for the backward substituion for Ux=y, the computation will follow the below reduced code: \newline
+\pseudoCode \newline
+  $x_{n}$ = $\dfrac{y_{n}}{C_{n,n}}$ \newline
+  \textbf {for} k = n-1:1 \newline
+   \hspace*{0.5cm} $x_{k}$ = $\dfrac{y_{k} - C_{k,n}*x_{n}}{C_{k,k}}$ \newline
+
+\textbf {Cost for backward Substituion} = 3n $\approx O(n)$
+
+Thus, total cost for solving Ax=b for the matrix form of B = $O(n) + O(n) + O(n) \approx O(n)$
 
 \end{document} 
 
