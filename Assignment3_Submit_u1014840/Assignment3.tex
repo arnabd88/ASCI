@@ -57,7 +57,7 @@ Thus, for the above pair of left and right eigen vector for $A_{2}$, the inner p
 \begin{equation}
   S(\lambda = 4)_{A_{2}} = \infty
 \end{equation}
-Condition numbers indicate how stable the computation is expected to be, such that lower computation numbers indicate more stability. If we refer to example-4.7, where the experiment was done with small perturbation to the matrix, $A_{1}$ came to be well-conditioned while $A_{2}$ came to be ill-conditioned. Our evaluation of the condition number also suggests that since condition number for $A_{1}$ is small it is numerically more stable and hence well conditioned while $A_{2}$ has condition number number of $\infty$ and hence ill-conditioned. \newline
+Condition numbers indicate how stable the computation is expected to be, such that lower condition numbers indicate more stability. If we refer to example-4.7, where the experiment was done with small perturbation to the matrix, $A_{1}$ came to be well-conditioned while $A_{2}$ came to be ill-conditioned. Our evaluation of the condition number also suggests that since condition number for $A_{1}$ is small it is numerically more stable and hence well conditioned while $A_{2}$ has condition number number of $\infty$ and hence ill-conditioned. \newline
 
 \question{Question-2}{Chapter-5: Exercise-2}
 For an $n \times n$ matrix A, and a vector vector b, the pseudoCode for the Gauss-Jordan elimination method for Solving $Ax = b$, is as described below(Assuming no pivoting):
@@ -117,7 +117,7 @@ The algorithm to find the solution for $Ax=b$ is detailed below
  \hspace*{1cm}   \textbf {for} k=1:n \newline
  \hspace*{1.5cm}    $y_{k}$ = $\dfrac{G_{k} - \sum_{j=1}^{k-1}L_{k,j}y_{j}}{L_{k,k}}$ \newline
 \hspace*{1cm}  // Solve for Ux = y by backward substitution \newline
-\hspace*{1cm}   \textbf {for} k=1:n \newline
+\hspace*{1cm}   \textbf {for} k=n:1 \newline
 \hspace*{1.5cm}   $x_{k}$ = $\dfrac{y_{k} - \sum_{j=k+1}^n U_{k,j}x_{j}}{U_{k,k}}$
 
   
@@ -144,7 +144,7 @@ Once, we augment A with  the diagonal matrix, the size of the overall matrix bec
 \hspace*{1.5cm}                 $b_{k,j} = \dfrac{b_{k,j}}{diag\_temp}$ \newline
 %\hspace*{2cm}              $b_{i}$ = $b_{i} - l_{i,k}b_{k}$
 
-The computation cost required for thisn operation in terms of floating point operations can be computed as follows: \newline
+The computation cost required for this operation in terms of floating point operations can be computed as follows: \newline
   
 \begin{align*}
   \sum_{k=1}^{n-1} 2(2n-k)(n-1) + (n-1) + (2n - k + 1) \\
@@ -169,7 +169,7 @@ The same task performed using LU Decomposition requires $\dfrac{8}{3}n^3 + O(n^2
 \hspace*{1cm}                     $A_{k,k+1:n}$ = 0 \newline
 \hspace*{0.5cm}   $A_{n,n} = \sqrt(A_{n,n})$ \newline
 
-The implemented code in Matklab is available as $Prob5\_Cholesky.m$  in the associated submission tar. Run in the matlab window as :\newline
+The implemented code in Matlab is available as $Prob5\_Cholesky.m$  in the associated submission tar. Run in the matlab window as :\newline
 $Prob5\_Cholesky(n)$;  // where n is the size of the matrix. It generates an $n \times n$ matrix and reports the result of the implemented cholesky and the matlab cholesky function to compare the output. \newline
 
 
@@ -178,7 +178,7 @@ $Prob5\_Cholesky(n)$;  // where n is the size of the matrix. It generates an $n 
 \[ a_{i,j} = 0, i>j+1\]
 
 \part{a}
-The psedoCode for LU decomposition of an upper Hessenberg Matrix,A of size $n \times n$ is as follows:\newline
+The psedoCode for LU decomposition of an upper Hessenberg Matrix,A, of size $n \times n$ is as follows:\newline
 \pseudoCode \newline
 \hspace*{0.5cm} \textbf {for} k = 1:n-1 \newline
 \hspace*{1cm}      $l_{k+1,k}$ = $\dfrac{a_{k+1,k}}{a_{k,k}}$ \newline
@@ -306,7 +306,7 @@ Next, for the backward substituion for Ux=y, the computation will follow the bel
 
 \textbf {Cost for backward Substituion} = 3n $\approx O(n)$
 
-Thus, total cost for solving Ax=b for the matrix form of B = $O(n) + O(n) + O(n) \approx O(n)$
+Thus, total cost for solving LUx=b for the matrix form of B = $O(n) + O(n) + O(n) \approx O(n)$
 
 \end{document} 
 
