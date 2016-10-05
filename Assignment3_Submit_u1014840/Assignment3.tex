@@ -144,7 +144,7 @@ Once, we augment A with  the diagonal matrix, the size of the overall matrix bec
 \hspace*{1.5cm}                 $b_{k,j} = \dfrac{b_{k,j}}{diag\_temp}$ \newline
 %\hspace*{2cm}              $b_{i}$ = $b_{i} - l_{i,k}b_{k}$
 
-The computation cost required for thisn operation in terms of floating point operations can be com[puted as follows: \newline
+The computation cost required for thisn operation in terms of floating point operations can be computed as follows: \newline
   
 \begin{align*}
   \sum_{k=1}^{n-1} 2(2n-k)(n-1) + (n-1) + (2n - k + 1) \\
@@ -156,6 +156,83 @@ The computation cost required for thisn operation in terms of floating point ope
 \end{align*}
 
 The same task performed using LU Decomposition requires $\dfrac{8}{3}n^3 + O(n^2)$ operation count. Thus, in the order of $n^3$, this method requires $\dfrac{1}{3}n^3$ more operation count. 
+
+
+\question{Question-5}{Chapter-5: Exercise-12}
+ To reformat the cholesky algorithm from the naive one given with multiple for-loops, below is the pseducode for the vectorized one: \newline
+
+\pseudoCode \newline
+\hspace*{0.5cm} \textbf {for} k=1:n-1 \newline
+\hspace*{1cm}                       $a_{k,k} = \sqrt{a_{k,k}}$ \newline
+\hspace*{1cm}                      $A_{k+1:n, k}$ = $\bigg (  \dfrac{a_{k+1,k}}{a_{k,k}} , \dfrac{a_{k+2,k}}{a_{k,k}} \dots ,\dfrac{a_{n,k}}{a_{k,k}}\bigg )$ \newline
+\hspace*{1cm}                      $A_{k+1:n,k+1:n}$ = $A_{k+1:n,k+1:n}$ - $[A_{k+1:n,k+1:n}]$ * $[A_{k+1:n,k+1:n}]^T$ \newline
+\hspace*{1cm}                     $A_{k,k+1:n}$ = 0 \newline
+\hspace*{0.5cm}   $A_{n,n} = \sqrt(A_{n,n})$ \newline
+
+The implemented code in Matklab is available as $Prob5\_Cholesky.m$  in the associated submission tar. Run in the matlab window as :\newline
+$Prob5\_Cholesky(n)$;  // where n is the size of the matrix. It generates an $n \times n$ matrix and reports the result of the implemented cholesky and the matlab cholesky function to compare the output. \newline
+
+
+\question{Question-6}{Chapter-5: Exercise-20}
+\textbf {Hessenberg Matrix:} An $n \times n$ matrix A is said to be in Hessenberg or upper Hessenberg form if all its elements below the first subdiagonal are zero, such that:\newline
+\[ a_{i,j} = 0, i>j+1\]
+
+\part{a}
+The psedoCode for LU decomposition of an upper Hessenberg Matrix,A of size $n \times n$ is as follows:\newline
+\pseudoCode \newline
+\hspace*{0.5cm} \textbf {for} k = 1:n-1 \newline
+\hspace*{1cm}      $l_{k+1,k}$ = $\dfrac{a_{k+1,k}}{a_{k,k}}$ \newline
+\hspace*{1cm}    \textbf {for} j=k+1:n \newline
+\hspace*{1.5cm}     $ a_{k+1,j}$ = $a_{k+1,j} - l_{k+1,k}*a_{k+1,j}$ \newline
+
+The upper traingular part of A will contain the U matrix formed due to the decomposition. We have not updated the zero values here. 
+
+\part{b}
+The sparsity structure of the matrix L will look as follows: \newline
+L = $\begin{bmatrix} 
+1 & 0 & 0 & 0 & 0 &\dots & 0 \\
+l_{2,1} & 1 & 0 & 0 & 0 &\dots & 0 \\
+0 & l_{3,1} & 1 & 0 & 0 & \dots & 0 \\
+0 & 0 & l_{4,1} & 1 & 0 & \dots & 0 \\
+\dots & \dots & \dots & \dots & \dots & \dots \\
+\dots & \dots & \dots & \dots & \dots & \dots \\
+0 & 0 & 0 & 0 & \dots &    l_{n,n-1} & 1 \\
+
+\end{bmatrix}$
+
+Thus, L contains one subdiagonal below the main diagonal. \newline
+
+\part{c} 
+The cost of operation for the decomposition  can be evaluated as: \newline
+\begin{align*}
+   \sum_{k=1}^{n-1} 2(n-k) + 1 \\
+   &= 2n(n-1) -n(n-1) + (n-1) \\
+   &= O(n^2) \\
+\end{align*}
+   
+To solve Ax = b or LU = b, where A=LU, we solve Ly=b first using forward substituion and then Ux=y using backward substituion. Since L is banded, the general formula for forward substituion in this case will become: \newline
+\textbf {for} k=1:n-1 \newline
+\hspace*{0.5cm} $y_{k}$ = $\dfrac{b_{k} - L_{k,k-1}*y_{k-1}}{L_{k,k}}$ \newline
+The cost for forward substituion will be 3n $\approx$ O(n)
+
+For the backward substituion for Ux=y, will still be $O(n^2)$ since the upper traingle remains dense and does not have a sparsity pattern. \newline
+Therefor, \textbf {total cost of operation} = $O(n^2) + O(n) + O(n^2) \approx O(n^2)$ \newline
+
+
+\part{d}
+If we enable partial pivoting for the LU decomposition of A, then we get \textbf {PA = $L^\prime U^\prime$}, where $L^\prime$ is the corresponding lower triangular matrix and $U^\prime$ is the corresponding upper matrix for PA. The sparcity structure of $L^\prime$ will be same as L. However, since we have applied partial pivoting, we need to recober the factors of A. The permutation matrix has the following property ,\newline
+\[PP^T = I\]
+\[=> P^T = P^{-1}\]
+
+Thus the folowing holds if we multiply \textbf {PA = $L^\prime U^\prime$} by $P^T$: \newline
+\begin{align*}
+P^TPA =& P^TL^\prime U^\prime \\
+A =& (P^TL^\prime )U^\prime \\
+\end{align*}
+
+Since L and $L^\prime$ has the same sparsity structure, the product $P^TL^\prime$ will destroy the sparsity structure of $L^\prime$, however the number of zeros for every column will still remain the same. \newline
+
+
 
 
 
