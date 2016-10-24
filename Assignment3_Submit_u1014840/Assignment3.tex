@@ -133,7 +133,7 @@ which means the same sequence of operations, when applied on the diagonal matrix
 Once, we augment A with  the diagonal matrix, the size of the overall matrix becomes $n \times 2n$. Let us call this matrix B. The pseudocde for obtaining inverse from B using GaussJordan is described below: \newline
 
 \pseudoCode \newline
-\hspace*{0.5cm} \textbf {for} k=1 : $n-1$ \newline
+\hspace*{0.5cm} \textbf {for} k=1 : $n$ \newline
 \hspace*{1cm}      \textbf {for} i=1 : n \newline
 \hspace*{1.5cm}     \textbf {if} (i $\neq$ k) \newline
 \hspace*{2cm}            $l_{i,k}$ = $\dfrac{b_{i,k}}{b_{k,k}}$ \newline
@@ -147,11 +147,11 @@ Once, we augment A with  the diagonal matrix, the size of the overall matrix bec
 The computation cost required for this operation in terms of floating point operations can be computed as follows: \newline
   
 \begin{align*}
-  \sum_{k=1}^{n-1} 2(2n-k)(n-1) + (n-1) + (2n - k + 1) \\
- &= \sum_{k=1}^{n-1} (4n - 2k)(n-1) + 3n - k \\
- &= \sum_{k=1}^{n-1} 4n^2 -4n -2nk + 2k + 3n - k \\
- &= \sum_{k=1}^{n-1} 4n^2 -n -2nk + k \\
-&= 4n^2(n-1) -n(n-1) -n^2(n-1) +\dfrac{n(n-1)}{2} \\
+  \sum_{k=1}^{n} 2(2n-k)(n-1) + (n-1) + (2n - k + 1) \\
+ &= \sum_{k=1}^{n} (4n - 2k)(n-1) + 3n - k \\
+ &= \sum_{k=1}^{n} 4n^2 -4n -2nk + 2k + 3n - k \\
+ &= \sum_{k=1}^{n} 4n^2 -n -2nk + k \\
+&= 4n^2(n) -n(n) -n^2(n+1) +\dfrac{n(n+1)}{2} \\
 &= 3n^3 + O(n^2) \\
 \end{align*}
 
@@ -183,7 +183,7 @@ The psedoCode for LU decomposition of an upper Hessenberg Matrix,A, of size $n \
 \hspace*{0.5cm} \textbf {for} k = 1:n-1 \newline
 \hspace*{1cm}      $l_{k+1,k}$ = $\dfrac{a_{k+1,k}}{a_{k,k}}$ \newline
 \hspace*{1cm}    \textbf {for} j=k+1:n \newline
-\hspace*{1.5cm}     $ a_{k+1,j}$ = $a_{k+1,j} - l_{k+1,k}*a_{k+1,j}$ \newline
+\hspace*{1.5cm}     $ a_{k+1,j}$ = $a_{k+1,j} - l_{k+1,k}*a_{k,j}$ \newline
 
 The upper traingular part of A will contain the U matrix formed due to the decomposition. We have not updated the zero values here. 
 
@@ -192,8 +192,8 @@ The sparsity structure of the matrix L will look as follows: \newline
 L = $\begin{bmatrix} 
 1 & 0 & 0 & 0 & 0 &\dots & 0 \\
 l_{2,1} & 1 & 0 & 0 & 0 &\dots & 0 \\
-0 & l_{3,1} & 1 & 0 & 0 & \dots & 0 \\
-0 & 0 & l_{4,1} & 1 & 0 & \dots & 0 \\
+0 & l_{3,2} & 1 & 0 & 0 & \dots & 0 \\
+0 & 0 & l_{4,3} & 1 & 0 & \dots & 0 \\
 \dots & \dots & \dots & \dots & \dots & \dots \\
 \dots & \dots & \dots & \dots & \dots & \dots \\
 0 & 0 & 0 & 0 & \dots &    l_{n,n-1} & 1 \\
@@ -211,7 +211,7 @@ The cost of operation for the decomposition  can be evaluated as: \newline
 \end{align*}
    
 To solve Ax = b or LU = b, where A=LU, we solve Ly=b first using forward substituion and then Ux=y using backward substituion. Since L is banded, the general formula for forward substituion in this case will become: \newline
-\textbf {for} k=1:n-1 \newline
+\textbf {for} k=1:n \newline
 \hspace*{0.5cm} $y_{k}$ = $\dfrac{b_{k} - L_{k,k-1}*y_{k-1}}{L_{k,k}}$ \newline
 The cost for forward substituion will be 3n $\approx$ O(n)
 
