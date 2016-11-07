@@ -133,7 +133,56 @@ Now, for QR, we write $x = (A^TA)^{-1}A^T b $, and we have represented A=QR by a
  \[ \bf y_3 = a\bf v_1 + b\bf v_2 - ( a\bf v_1 + b\bf v_2 - b\bf y_2 + 0 + b\bf y_2 ) = 0\]
  Thus $\bf y_3$, comes out to be zero, when we encounter the linearly dependent vector. (Answer). \newline
 
- \part{b} 
+ \part{b} The classical pseudoCode of Gram-Scmidt is as below: \newline
+ \textbf {Classical-GS} \newline
+ \hspace*{0.5cm} $\bf for$ k=1:n \newline
+ \hspace*{1.0cm} w = $a_k$ \newline
+ \hspace*{1.0cm} $\bf for$ j=1:k-1 \newline
+ \hspace*{1.5cm} $r_{jk} = q_{j}^Tw$ \newline
+ \hspace*{1.0cm} end \newline
+ \hspace*{1.0cm} $\bf for$ j=1:k-1 \newline
+ \hspace*{1.5cm} w = w - $r_{jk}q_j$ \newline
+ \hspace*{1.0cm} end \newline
+ \hspace*{1.0cm} $r_{kk} = ||w||$ \newline
+ \hspace*{1.0cm} $q_{k} = w/r_{kk}$ \newline
+ \hspace*{0.5cm} end \newline
+
+ \textbf {Modified-GS} \newline
+ \hspace*{0.5cm} $\bf for$ k=1:n \newline
+ \hspace*{1.0cm} w = $a_k$ \newline
+ \hspace*{1.0cm} $\bf for$ j=1:k-1 \newline
+ \hspace*{1.5cm} $r_{jk} = q_{j}^Tw$ \newline
+ \hspace*{1.5cm} $w = w - r_{jk}q_{j}$ \newline
+ \hspace*{1.0cm} end \newline
+ \hspace*{1.0cm} $r_{kk} = ||w||$ \newline
+ \hspace*{1.0cm} $q_{k} = w/r_{kk}$ \newline
+ \hspace*{0.5cm} end \newline
+
+ Suppose at the k'th iteration the orthonormal q's already calculated are $Q_{k-1} = [q_1, q_2, \dots, q_{k-1}]$. In the \textbf {classical} case, we first calculate the projections, so suppose the calculated values of the projections in the k'th iteration are \newline
+ \[[r_{ik}, r_{2k}, \dots, r_{k-1,k}]\]
+ where, $r_{jk} = q_{j}^Tw$,  where w in the k'th iteration is initialised to $a_{k}$, the vector whose orthogonal transformation is done in the k'th step. Then, these projections along the corresponding orthonormal directions are subtracted from w, in the second inner loop, resulting in: \newline
+ \begin{equation}
+  w = w - r_{1k}\bf q_1 - r_{2k}\bf q_2 - \dots - r_{k-1,k}\bf q_{k-1}
+ \end{equation}
+
+ In the modified version, instead of precomputing all the $r_{jk}$'s at a time, we compute $r_{jk}$ and substract from w, thus always $orthogonalizing$ against the currently computed version. Suppose, we are in the k'th iteration, and j=1 results in the following computation
+ \[ w_{1} = w - r_{1k}q_1 = w - (q_{1}^Tw)q_1 \]
+ Then for j=2 in the k'th iteration: \newline
+ \[ w_{2} = w_1 - r_{2k}q_2 =  w - (q_{1}^Tw)q_1 -   q_{2}^T(w - (q_{1}^Tw)q_1)q_2   \]
+ \[ w_{2} = w_1 - r_{2k}q_2 =  w - (q_{1}^Tw)q_1 -   (q_{2}^T.w)q_2 - 0   \]
+ \[ w_{2} = w_1 - r_{2k}q_2 =  w - r_{1k}\bf q_1 -   r_{2k}\bf q_2 - 0   \]
+
+ And similarly for increasing j's(j limits to k) it holds true since $q_i and q_j$ are orthonromal for $i\neq j$. Thus , in exact arithmatic the modified and classical version are numerically the same. (Proved). \newline
+
+ \part{c}
+
+ \question{4}{Chapter-7, Question-9}
+ For the iterative scheme, we have $x_{k+1} = x_{k} + \alpha_{k}p_{k}$, where, $p_{k}$ is the search direction and $\alpha_{k}$ is the step size. This includes the basic statioanry methods as well of the form, $x_{k+1} = x_{k} + M^{-1}r_{k}$.\newline
+ Now, consider the given iterative scheme: \newline
+ \[ x_{k+1} = x_{k} + \alpha(b - Ax_{k}) \]
+ Since, $r_{k} = b - Ax_{k}$ is the residual at the k'th step, and in gradient descent , the search direction is in the reverse direction of the residual, Hence, $p_{k} = r_{k}$. Hence, for a fixed $\alpha$ we get: 
+ \[M^{-1} = \alpha I\]
+ \[M = (\alpha I)^{-1}\]
 
   
 \end{document}
