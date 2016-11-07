@@ -268,7 +268,17 @@ Now, for QR, we write $x = (A^TA)^{-1}A^T b $, and we have represented A=QR by a
   \question{6}{GMRES ----}
 
   \question{7}{Chapter-8, question-7}
-  \part{a}
+  \part{a} Given a column stochastic matrix,P, of size $n \times n$ whose all entries are non-negative and each column sum to 1. 
+   \[A(\alpha) = \alpha P + (1-\alpha)E \]
+   For this matrix,A, the entry at its i'th row and j'th column will be
+   \[a_{ij} = \alpha p_{ij} + \dfrac{1-\alpha}{n}\]
+   Then the sum of the elements of its j'th column will be:
+   \[ \sum_{i=1}^n a_{ij} = \sum_{i=1}^n (\alpha p_{ij} + \dfrac{1-\alpha}{n}) \]
+   \[ \sum_{i=1}^n a_{ij} = \alpha \sum_{i=1}^n p_{ij} + \dfrac{1-\alpha}{n}\sum_{i=1}^n 1 \]
+   Since P is also stochastic, hence $\sum_{i=1}^n p_{ij} = 1$, thus we get: \newline
+   \[ \sum_{i=1}^n a_{ij} = \alpha + \dfrac{1-\alpha}{n}\times n = 1 \]
+   Thus, the sum of elements of a column in A is also 1. Hence, A is also stochastic. (Proved). \newline
+
 
 
 
