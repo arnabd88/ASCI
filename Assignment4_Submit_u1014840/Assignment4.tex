@@ -178,11 +178,102 @@ Now, for QR, we write $x = (A^TA)^{-1}A^T b $, and we have represented A=QR by a
 
  \question{4}{Chapter-7, Question-9}
  For the iterative scheme, we have $x_{k+1} = x_{k} + \alpha_{k}p_{k}$, where, $p_{k}$ is the search direction and $\alpha_{k}$ is the step size. This includes the basic statioanry methods as well of the form, $x_{k+1} = x_{k} + M^{-1}r_{k}$.\newline
+ \part{a}
  Now, consider the given iterative scheme: \newline
  \[ x_{k+1} = x_{k} + \alpha(b - Ax_{k}) \]
  Since, $r_{k} = b - Ax_{k}$ is the residual at the k'th step, and in gradient descent , the search direction is in the reverse direction of the residual, Hence, $p_{k} = r_{k}$. Hence, for a fixed $\alpha$ we get: 
  \[M^{-1} = \alpha I\]
  \[M = (\alpha I)^{-1}\]
+ (answer). \newline
+ The iteration matrix(T) is defined as \newline
+ \[T = I - M^{-1}A = I - \alpha I A = I - \alpha A\]
+ (answer). \newline
 
-  
+  \part{b}
+  \bf {(i)}Given that A is symmetric positive definite and its eigen values follows the inequality: \newline
+  \begin{equation}
+	  \lambda_1 > \lambda_2 > \dots > \lambda_n > 0
+  \end{equation}
+  Scaling equation(4) by $\alpha$, we get the following
+	\[  \alpha\lambda_1 > \alpha\lambda_2 > \dots > \alpha\lambda_n > 0 \]
+	\[  -\alpha\lambda_1 < -\alpha\lambda_2 < \dots < -\alpha\lambda_n < 0 \]
+ \begin{equation}
+	 1 -\alpha\lambda_1 < 1 -\alpha\lambda_2 < \dots < 1 -\alpha\lambda_n < 1 
+ \end{equation}
+
+ Since, $T = I - \alpha A$, then for an eigen value $\lambda_i$ of A, their will be a corresponding eigen value of T as $(1 - \alpha \lambda_i)$. Thus, equation-5 gives the eigen values of T and the order of their relative magnitudes. \newline
+
+ The theorem for Statioanry method converegence says, that if the spectral radius of the iteration matrix is less than 1, then the system converges. The spectral radius of a matrix is defined as : \newline
+ $\rho (B)$ = max{$|\lambda_i|: \lambda_i$ are the eigen values of B} \newline
+ Equation(5) shows that the spectral radius of T will be $|1 - \alpha \lambda_n|$ and for convergence it should be less than 1. Hence, \newline
+ \[-1 < 1 - \alpha \lambda_n < 1\]
+ \begin{equation}
+  0 < \alpha < \dfrac{2}{\lambda_n}
+ \end{equation}
+ (condition on $\alpha$ for convergence).
+
+
+  \bf {(ii)} The condition number of a symmetric positive definite matrix,A, is given by: \newline
+  \[K(A) = \dfrac{\lambda_{max}}{\lambda_{min}} = \dfrac{\lambda_1}{\lambda_n}\]
+  \[ \lambda_n = \dfrac{\lambda_1}{K(A)}\]
+  and substituting this in equation(6) \newline
+  \begin{equation}
+	  0 < \alpha < \dfrac{2K(A)}{\lambda_1}
+  \end{equation}
+  (Condition on $\alpha$ in terms of the condition number) \newline
+
+  \bf {(iii)} For the statioanry method, at the i'th ieration and for iteration matrix T, the following error relation holds: \newline
+  \[ ||e_i|| \leq ||T||^i e_0\]
+
+  Also, for the steepest descent at the i'th iteration we have the following relation,
+  \[ ||e_i|| \leq \bigg ( \dfrac{k-1}{k+1} \bigg )^i e_0\]
+  where k is the condition number. Since steepest descent is the one that converegs at the best speed for the class of gradient descent, we can equate these two relations to get: \newline
+  \[ ||T|| = \dfrac{k-1}{k+1}\]
+  \[ (1-\alpha \lambda_n) = \dfrac{k-1}{k+1}\]
+  \[ \alpha \lambda_n = \dfrac{2}{k+1} = \dfrac{2\lambda_n}{\lambda_1 + \lambda_n}\]
+  \[ \alpha = \dfrac{2}{\lambda_1 + \lambda_n}\]
+  (Best value for $\alpha$ for maximizing speed) . \newline
+
+  \part{c} "If A is strictly diagonally dominant and $\alpha = 1$, then the iterative scheme converegs to the solution for any initial guess." \newline
+  Since, $\alpha = 1$, our M is basically the identity matrix. Note that, for any matrix equation, Ax=b, we can scale each row of A and corresponding element in B by the corresponding  diagonal element of that row such that the system of equation remains unalterted. By performing such an operation we can ensure that all the diagonal elements are 1, but the diagonal dominance of the original matrix still remains. Since , our M is the identity matrix, and the diagonal matrix of A is also the identity matrix, this means in our problem we chose the splitting of M to be the diagonal matrix, which means we are performing the Jacobi iteration. Thus it just remains to prove that Jacobi iterations converge if the matrix is diagonally dominant.  \newline
+  \textbf {Proof:} \newline
+  By defintition of diagonal dominance, we have:
+  \[ |a_{ii} > \sum_{j\neq i}|a_{ij}|\]
+  \[ \sum_{j\neq i} \dfrac{a_{ij}}{a_{ii}} < 1\]
+  For Convergence, we are required to show that $||M^{-1}N|| < 1$. Here we pick the infinity norm: \newline
+  \[ ||G||_{\infty} = ||M^{-1}N|| = ||D^{-1}(L+U)||_{\infty} = max_{1\leq i \leq m} \sum_{j\neq i} \dfrac{|a_{ij}|}{a_{ii}} < 1 \]
+
+  Hence Jacobi converges, and by consequence of that, if a Matrix is stricly diagonally dominant and $\alpha=1$, then the iterative scheme converges to the solution for any initial guess. (Proved). \newline
+
+  \question{5}{Chapter-7, question-12}
+   Given a linear system , Ax=b, where A is symmetric. Suppose M-N is a splitting of A, where M is symmetric positive definite and N is symmetric. \newline
+   Since, M is symmetric Positive Definite, hence we can write the condition number of A as, \newline
+  \[K(A) = ||M||||M^{-1}||\dfrac{\lambda_{max}(M)}{\lambda_{min}(M)}\]
+  or, from here we get: \newline
+  \begin{equation}
+	  ||M^{-1}|| = \dfrac{\lambda_{max}(M)}{\lambda_{min}(M) \times ||M||}
+  \end{equation}
+
+  Now, for an iterative scheme with a splitting of A=M-N, we have: \newline
+  \[ x_{k+1} = M^{-1}Nx_k + M^{-1}b \]
+  This converegs if the norm of $M^{-1}N$ is less than 1.\newline
+  \[ ||M^{-1}N|| \leq ||M^{-1}|| ||N|| =  \dfrac{\lambda_{max}(M)}{\lambda_{min}(M) \times ||M||} ||N|| \]
+  Now the norm of a symmetric positive definite matrix is the magnitude of its highest eigen-vector. Hence, $||M|| = \lambda_{max}$, and hence they cancel each other. Since, it is given that $\lambda_{min}(M) > \rho(N)$, and for a symmetric matrix N, $\rho(N) \leq ||N||$. Thus, we get the following: \newline
+  \[||M^{-1}N|| \leq \dfrac{||N||}{\lambda_{min}(M)} \leq \dfrac{\rho(N)}{\lambda_{min}(M)} < 1 \]
+
+  Hence, the system converegs if $\rho(N) < \lambda_{min}(M)$ (Proved). \newline
+
+
+
+  \question{6}{GMRES ----}
+
+  \question{7}{Chapter-8, question-7}
+  \part{a}
+
+
+
+
+
+
+
 \end{document}
