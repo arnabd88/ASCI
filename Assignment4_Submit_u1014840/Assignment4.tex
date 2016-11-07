@@ -1,0 +1,113 @@
+\documentclass{article}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{longtable}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt plus 1pt}
+\setlength{\headheight}{13.6pt}
+\newcommand\question[2]{\vspace{.25in}\hrule\textbf{#1: #2}\hrule\vspace{.10in}}
+\renewcommand\part[1]{\vspace{.10in}\textbf{(#1)}}
+\newcommand\algo{\vspace{.10in}\textbf{Algorithm: }}
+\newcommand\correctness{\vspace{.10in}\textbf{Correctness: }}
+\newcommand\runtime{\vspace{.10in}\textbf{Running time: }}
+\newcommand\pseudoCode{\vspace{.10in}\textbf{PseudoCode: }}
+\newcommand*{\perm}[2]{{}^{#1}\!P_{#2}}
+\newcommand*{\comb}[2]{{}^{#1}\!C_{#2}}
+%\pagestyle{fancyplain}
+%\lhead{\textbf{\NAME\ (\UID)}}
+%\chead{\textbf{Hw\HWNUM}}
+%\rhead{CS 6350, \today}
+\title{CS6210 - Homework/Assignment-4}
+\author{Arnab Das(u1014840)}
+\usepackage[utf8]{inputenc}
+\begin{document}
+  \pagenumbering{gobble}
+  \maketitle
+  \newpage
+  \pagenumbering{arabic}
+  \newcommand\NAME{ARNAB DAS}
+  \newcommand\UID{uxxxxxxx}
+  \newcommand\HWNUM{4}
+
+  %%---- Chapter-6 --------------%%
+  \question{1}{Chapter-6, question-4} 
+  \part{a} The techniques discussed in this chapter are for polynomial data fitting and not exponential data fitting, hence cannot be applied directly to $u(t)$ . \newline
+  
+  \part{b} Given approximation of the form
+  \[ u(t) = \gamma_1 \exp(\gamma_2t)\]
+  and provided data points as $(t_1,z_1),(t_2,z_2), \dots , (t_m,z_m)$, where $z_i > 0, i=1,2,\dots,m$ and $m>0$. \newline
+  Considering instead the following approximation: \newline
+  \[ v(t) = lnu(t) = (ln\gamma_1) + \gamma_2t \]
+  such that the data points become $(t_1,b_1),(t_2,b_2), \dots , (t_m,b_m)$ where $b_i = lnz_i$ and 
+  \[v(t) = x_1 + x_2t\]
+  such that $x_1 = ln\gamma_1$ and $x_2 = \gamma_2$ and $v(t) = lnu(t)$ \newline
+  Then for solving $A^TAx = A^Tb$, we define the following matrices: \newline
+  $A$ = $\begin{bmatrix}
+	  1 & t_1 \\
+	  1 & t_2 \\
+	  \dots & \dots \\
+	  1 & t_m \\
+\end{bmatrix}$ leading to 
+ $B = A^TA$ =  $\begin{bmatrix}
+	 \sum_{i=1}^m 1 = m & \sum_{i=1}^m t_i \\
+	 \sum_{i=1}^m t_i & \sum_{i=1}^m {t_{i}}^2 \\ 	 
+ \end{bmatrix}$ and
+ $b$ = $\begin{bmatrix}
+	 t_1 \\
+	 t_2 \\
+	 \dots \\
+	 t_m \\
+\end{bmatrix}$ leading to 
+$A^Tb$ = $\begin{bmatrix}
+	\sum_{i=1}^m b_i \\
+	\sum_{i=1}^m t_ib_i \\
+\end{bmatrix}$
+Thus solving
+\[ B = A^TAx = A^Tb\]
+we get the following two equations: \newline
+\begin{equation}
+	x_1 + x_2 = 1
+\end{equation}
+and 
+\begin{equation}
+	3x_1 + 5x_2 = 4.9
+\end{equation}
+Solving (i) and (ii) , we get: $x_1 = ln\gamma_1 = 0.5$ and $x_2 = \gamma_2 = 0.95$ \newline
+Thus, we have , 
+\[v(t) = lnu(t) = ln(0.5) + 0.95t\]
+\[=> u(t) = 0.5 \times exp(0.95t)\]
+(Answer). \newline
+
+\question{2}{Chapter-6, question-5}
+\part{a} For tall and skinny matrices, A, of the system of equations , $Ax=b$, the number of rows is much larger than  the number of columns. Let the number of rows be m and the number of columns n, then in such cases generally $m >> n$. These systems are overdetermined and b is generally not in the range space of A. Thus applying LU does not gives a unique solution to Ax=b. Instead, a better way to approach such problems is to minimize the residual $||b-Ax||$, such that within the tolerance of the residual we have the best solution for x. When transforming to the normal equation, $A^TAx = A^Tb$, here one can use LU decomposition since we have $n\times n$ matrix, however cholesky decomposition is a better choice here since the matrix $A^TA$ is symmetric positive definite. In case of the QR decomposition, which has an upper triangular part in R, however the Q matrix allows us to extract the upper-triangular system of equation whose solution leads to a solution of the least square problem. Here, the orthonormal behaviour of Q is used to transform into equivalent set of equations such that the \textbf {norms are not affected}. Finally, SVD is used more in cases where A is rank deficient or nearly rank deficient, in which cases LU cannot be used. Thus, in all the cases LU directly doesn't fits the scenario for application except that LU requires to be slightly modified so that for every column it zeroes out, the vector of its remaining elements is orthonormal to the previous columns. With this introduction of orthonormality, it can be used in QR decomposition. \newline
+
+\part{b} In the normal equation: the way condition number came to be $K(B) = K^2(A)$. This was because of the folliwing derivation: \newline
+In normal equation we were solving: 
+\[A^TAx = A^Tb\] and
+\[ (A^TA)^{-1}A^T = VS^{-2}V^T V\sum^{T}U^T = V(S^{-1} 0)U^T\]
+where A = $U\sum V^T$ , V and U are orthogonal matrices and $\sum$ is a diagonal matrix with singular values of A along the diagonal, and hence $A^TA = V\sum U^T U\sum V^T$ = $V \sum^2 V^T$ \newline
+Thus $||(A^TA)^{-1}A^T||$ = $||(S^{-1} 0)||$ and $||((A^TA)^{-1}A^T)^{-1}|| = ||V(S 0)U^T||$\newline
+Thus the condition number becomes: \newline
+ \[K(B=A^TA) = \dfrac{\lambda_1}{\lambda_n} = \dfrac{\sigma_{1}^2}{\sigma_{n}^2} = K^2(A)\]
+
+Now, for QR, we write $x = (A^TA)^{-1}A^T b $, and we have represented A=QR by a QR decomposition where Q is orthonormal and of same dimension as A. The following translation results in the final form: \newline
+	\[x = (A^TA)^{-1}A^T b = (R^TQ^TQR)^{-1}R^TQ^Tb = (R^TR)^{-1}R^TQ^Tb) = R^{-1}Q^Tb\]
+	Hence, we get the following relation,
+	\[ x = R^{-1}Q^Tb\]
+	Notice, that multiplication by orthogonal matrices do not affect the norms, thus,
+	\[||R^{-1}Q^T|| = ||R^{-1}|| = ||A^{-1}||\]
+	and also, 
+	\[||(Q^T)^{-1}R|| = ||R|| = ||A||\]
+	Thus the condition number in this case comes to be $||A||||A^{-1}|| = K(A)$. \newline
+	The main saving comes due to usage of the orthonormal decomposition for the transformations, since the transformations using q only transofrms them in space without affecting the norm values, while for the previous normal equation, the singular values were getting multiplied during creation $A^TA$, introducing change in norm values during the transformations. \newline
+
+\question{3}{Chapter-8, question-8}
+ \part{a} Given a rank deficient matrix
+  
+  
+\end{document}
