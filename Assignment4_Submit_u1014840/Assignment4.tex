@@ -460,7 +460,11 @@ Thus every multiplication with E, results in a scalar value that scales the all 
 	\[||x - x_\gamma|| \leq ||B^{-1}||||\gamma||||x_\gamma|| \leq ||B^{-1}||||\gamma||||x||\]
 	Now, $||B^{-1}|| = ||(A^TA)^{-1}|| =  \dfrac{1}{\sigma_{min}^2}$, hence:
 	\[\dfrac{||x - x_\gamma||}{||x||} \leq \dfrac{\gamma}{\sigma_{min}^2}\]
-	(answer).
+	(answer). \newline
+
+	To guarantee that the relative error is bounded by $\epsilon$, we can write: \newline
+	\[ \dfrac{\gamma}{\sigma_{min}^2} \leq \epsilon \]
+	\[ \gamma \leq \epsilon \times \sigma_{min}^2 \]
 
 
 \part{e}
