@@ -279,6 +279,74 @@ Now, for QR, we write $x = (A^TA)^{-1}A^T b $, and we have represented A=QR by a
    \[ \sum_{i=1}^n a_{ij} = \alpha + \dfrac{1-\alpha}{n}\times n = 1 \]
    Thus, the sum of elements of a column in A is also 1. Hence, A is also stochastic. (Proved). \newline
 
+   \part{b} A column stochastic matrix, or a Markov matrix,'A', has an eigen value of 1 and all others are less than 1. So, $\lambda = 1$, is the dominant eigen value. If A is column stochastic, then $A^T$ is row-stochastic, thus the sum of the elements of each row of $A^T$ is 1. So: \newline
+  $A^T$ $\begin{bmatrix}
+	  1 \\
+	  1 \\
+	  \dots \\
+	  1 \\
+  \end{bmatrix}$ = $\begin{bmatrix}
+	  1 \\
+	  1 \\
+	  \dots \\
+	  1 \\
+  \end{bmatrix}$ \newline
+  Hence, $A^T$ has an eigen value of 1. Since the determinants of $det(A - \lambda_nI)$ and $det(A^T - \lambda_nI)$ are the same, hence A and $A^T$ has the same eigen value. \textbf {Thus, A has an eigen value of 1}. \newline
+  Now, suppose A has an eigen vector , say v, whose eigen-value $\lambda$ is greater than 1, that is, $|\lambda| > 1$. This implies that $A^nv = \lambda^nv$ has exponentially growing length for large $n -> \infty$. This further implies that there is a large coefficient $[A^n]_{i,j}$ which is larger than 1, since A is non-negative. Since, matrix multiplication of two stochastic matrices results in stochastic matrix, hence as A is stochastic, so $A^n$ is also stochastic which indicates that all its entries has to be $\leq 1$, providing a contradiction. So, all eigen values other than 1, has to be less than 1. Hence, the dominant eigen value is 1(Proved). \newline
+  Let the dominant eigen-vector be \bf v, and its corresponding eigen value is 1. \newline
+  Hence,
+  \[ A(\alpha)v = v = \alpha Pv + (1-\alpha)Ev\]
+  \[(I - \alpha P)v = (1 - \alpha)Ev\]
+
+  Now, Ev = $\begin{bmatrix}
+	  	1/n & 1/n & \dots & 1/n \\
+	  	1/n & 1/n & \dots & 1/n \\
+		\dots & \dots & \dots & \dots \\
+	  	1/n & 1/n & \dots & 1/n \\
+  \end{bmatrix}$ v = $\dfrac{1}{n}\begin{bmatrix}
+	  			   1 \\
+	  			   1 \\
+	  			   \dots \\
+	  			   1 \\
+	  			 \end{bmatrix}$, as the eigen-vectors are also stochastic vectors. Substituing them in the original equation, we get: \newline
+
+  $(I - \alpha P)v = (1 - \alpha)\dfrac{1}{n} \begin{bmatrix}
+	  			   1 \\
+	  			   1 \\
+	  			   \dots \\
+	  			   1 \\
+	  			 \end{bmatrix}$ \newline
+  \bf v = $\dfrac{1-\alpha}{n} (I - \alpha P)^{-1}\begin{bmatrix}
+	  			   1 \\
+	  			   1 \\
+	  			   \dots \\
+	  			   1 \\
+  \end{bmatrix}$ \textbf {This is the dominant eigen-vector of $A(\alpha)$}. \newline
+
+  \part{c} Suppose the second dominant eigen value of A is $\lambda_2$ and its corresponding eigen-vector is x. Then: 
+  \begin{equation}
+	  \alpha Px + (1-\alpha)Ex = \lambda_2 x
+  \end{equation}
+  We will come back to equation(9) after proving the following lemma. \newline
+  \textbf {lemma-1:} If $x_i$ is the eigen vector of A with eigen value $\lambda_i$ and $y_j$ is the eigen vector of $A^T$ with eigen value $\lambda_j$, then if $\lambda_i \neq \lambda_j$, then $x_{i}^Ty_j = 0$ \newline
+  \textbf {proof:} We can write the following :
+  \[ y_{j}^TA = \lambda_{j}y_{j}^T \]
+  \[ Ax_{i} = \lambda_{i}x_{i}\]
+  Transposing and then Multiplying the first by $y_j$ and the second by $x_{i}^T$, we get
+  \[ x_{i}^TA^Ty_j = \lambda_ix_{i}^Ty_j\]
+  \[ x_{i}^TA^Ty_j = \lambda_jx_{i}^Ty_j\]
+  Subtracting the above leads to the fact that is $\lambda_i \neq \lambda_j$, then:
+  \[x_{i}^Ty_{j} = 0\]
+  (Proved) \newline
+
+  Coming back to our original equation(9), notice that E's columns are vectors $e^T=\dfrac{1}{n}[1,1, \dots, 1]$. This all 1 vector is an eigen-vector of $A^T$ and corresponds to eigen-value of 1. Thus, applying the lemma we just proved, we then get $Ex_2=0$. Now the equation(9) becomes, 
+  \[\alpha Px_2 = \lambda_2 x_2 \]
+  \[Px_2 = \dfrac{\lambda_2}{\alpha }x_2\]
+  Since, P is also stochastic and the $x_2$ is also an eigen vector of P and 1 is the dominant eigen vector, hence: \newline
+  \[\dfrac{\lambda_2}{\alpha} \leq 1\]
+  \[\lambda_2 \leq \alpha\]
+  Thus, the second largest wigenvalue of $A(\alpha)$ is upper bounded by $\alpha$. \newline
+
 
 
 
