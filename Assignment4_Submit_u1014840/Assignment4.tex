@@ -347,7 +347,128 @@ Now, for QR, we write $x = (A^TA)^{-1}A^T b $, and we have represented A=QR by a
   \[\lambda_2 \leq \alpha\]
   Thus, the second largest wigenvalue of $A(\alpha)$ is upper bounded by $\alpha$. \newline
 
+  \part{d}
+  \textbf {(i)} $A(\alpha)$ contains to essential components , one of them $P(\alpha)$ is large and sparse, while E is large and sense. Since P is very sparse, it can have a compresses row or compressed column representation and we perform matvec operations on this compresses structure over only the non-zero entries. Additionally, we do not require any storage for the last row entry of the matrix A. This is because, Since A is stochastic, the column sums of A are 1, hence the last element of the matvec  will be all the previous elements of the result subtracted from the column sum of the vector. So, at every step of the sparse matrix vector product, we keep accumulating the sum, until we reach the last row, where-in we completely abandon the computation and subtract this sum from the column sum of the vector, and that gives us the last element. \newline
+The next saving we do for A, is by utilizing the structure of E. Note that although E is large and dense, it is just a rank-1 matrix. Hence , multiplying a vector, $v = [v_1, v_2, \dots, v_n]$ to E, results in the following: \newline
+$\begin{bmatrix}
+	1/n & 1/n & \dots & 1/n \\
+	1/n & 1/n & \dots & 1/n \\
+	\dots & \dots & \dots & \dots \\
+	1/n & 1/n & \dots & 1/n \\
+\end{bmatrix}$ $\begin{bmatrix}
+	v_1 \\
+	v_2 \\
+	\dots \\
+	v_n \\
+\end{bmatrix}$ = $\begin{bmatrix} 
+	\dfrac{v_1 + v_2 + \dots + v_n}{n} \\
+	\dfrac{v_1 + v_2 + \dots + v_n}{n} \\
+	\dots \\
+	\dfrac{v_1 + v_2 + \dots + v_n}{n} \\
+\end{bmatrix}$ = $\sum_{i=1}^n v_i.\dfrac{1}{n} \begin{bmatrix}
+	1 \\
+	1 \\
+	\dots \\
+	1 \\
+\end{bmatrix}$ \newline
+Thus every multiplication with E, results in a scalar value that scales the all 1 column space, and this value is essentially the sum of the elements of the vector. Thus, instead of computing the dense matrix vector multiplication of $O(n^2)$, we only require summing the vector elements which is $O(n)$. \newline
 
+ \textbf {(ii)} If the initial guess $v_0$ satisfies $||v_0||_1 = 1$, and supposing $v_0$ is non-negative , that means $v_0$ is a column stochastic vector. Since A is a stochastic matrix, if we show that the matrix vector product of a stochastic matrix and a stochastic vector results in a stochastic vector, then we can conclude that the result of each iteration of the power-method will result in a stochastic vector whose l1-norm will be 1 and hence normalization will not be required. \newline
+ \textbf {Proof:} Let A be an $n \times n$ stochastic matrix and v be a $n \times 1$ stochastic vector. \newline
+ Then, $\sum_{i=1}^n a_{ij} = 1$, for all j=1,2,... and $\sum_{j=1}^n v_{j} = 1$, then \newline
+ Av = $\begin{bmatrix}
+	 \sum_{j=1}^n a_{1j}.v_j \\
+	 \sum_{j=1}^n a_{2j}.v_j \\
+	 \dots \\
+	 \sum_{j=1}^n a_{2j}.v_j \\
+ \end{bmatrix}$
+ Then, $||Av||$ = \[\sum_{i=1}^n \sum_{j=1}^n a_{ij}.v_j = \sum_{j=1}^n (\sum_{i=1}^n a_{ij}).v_j = \sum_{j=1}^n v_j = 1\]
+
+ Thus, the result of the multipication of a stochastic vector by a stochastic matrix results in a stochastic vector whose l1-norm is 1. (Proved). \newline
+
+ \question{8}{chapter-8,question-10}
+ Given the least squares problem
+ \[  min_x ||b - Ax||_2\]
+ where A is ill conditioned. Considering the regularization approach that replaces the the normal equations by the modified, better conditioned system.
+ \begin{equation}
+ (A^TA + \gamma I)x_{\gamma} = A^Tb
+ \end{equation}
+ \part{a} 
+ \[K_2(A^TA + \gamma I) = \dfrac{\lambda_{max} + \gamma}{\lambda_{min} + \gamma} \]
+ \[ = \dfrac{\lambda_{max}(1 + \dfrac{\gamma}{\lambda_{max}})}{\lambda_{min}(1 + \dfrac{\gamma}{\lambda_{min}})}\]
+ Now, since, $\lambda_{max} > \lambda_{min}$, hence $\dfrac{1}{\lambda_{max}} < \dfrac{1}{\lambda_{min}}$, and using this in the previous equation , we get
+ \[K_2(A^TA + \gamma I) = \dfrac{\lambda_{max}(1 + \dfrac{\gamma}{\lambda_{max}})}{\lambda_{min}(1 + \dfrac{\gamma}{\lambda_{min}})} \leq \dfrac{\lambda_{max}}{\lambda_{min}} = K_2^2(A)\]
+ (Proved). \newline
+
+ \part{b} 
+ We will reformulate the equations for $x_{y}$ as a least square problem. Equation-10 can be written as $Cx_\gamma = D$, and to translate it to a least square problem, we would like to minimize the residual, that is $||D - Cx_\gamma||$. We ca summarize the following data for relations between C,D,A and b. \newline
+ We can write , $A = U\Sigma V^T$ and correspondingly $A^T = V\Sigma U^T$, where U,V are orthogonal matrices and $\Sigma$ is a diagonal matrix of singular values. Then $A^TA = V \Sigma^2 V^T$ and $AA^T = U\Sigma^2 U^T$. We have defined $C = (A^TA + \gamma I)$, which can be further broken into: \newline
+ \[C = A^TA + \gamma I = V\Sigma^2V^T + \gamma I = V(\Sigma^2 + \gamma I)V^T\]
+
+ and $D = A^Tb = (V\Sigma U^T)b$ \newline
+
+ Now, relacing C and D into the minimization form, we get
+ \[ ||D - Cx_\gamma|| = ||A^Tb - (A^TA + \gamma I)x_\gamma|| = || (V\Sigma U^T)b - V(\Sigma^2 + \gamma I)V^T x_\gamma|| \]
+ Since V is orthogonal, we can safely multiply by $V^T$ without changing the norms. Hence,
+ \[|| V^T(V\Sigma U^T)b - V^TV(\Sigma^2 + \gamma I)V^T x_\gamma|| = || (\Sigma U^T)b - (\Sigma^2 + \gamma I)V^T x_\gamma||\]
+ This can be written in the form:
+ \[||z - \Sigma^\prime y ||\]
+ where, z = $U^Tb$, y = $V^Tx_\gamma$, and $\Sigma^\prime = \Sigma^2 + \gamma I$.If the rank of the matrix is $r < n$, set $y_i = 0$, for $i=r+1,r+2,\dots,n $ and set the other $y_i$ for $0 \leq i \leq r$, as:
+ \[ y_i = \dfrac{z_i}{((\sigma_i)^\prime)} = \dfrac{\sigma_i . {u_{i}}^Tb}{(\sigma_i)^2 + \gamma}\]
+ Then compute $\bf {x_\gamma=Vy} $. $x_\gamma$ in terms of the columns $u_i$ of U and $v_i$ of V can be written as : 
+ \[x_\gamma = \sum_{i=1}^r \dfrac{\sigma_i {u_i}^Tb}{{\sigma_i}^2 + \gamma} = V\Sigma^{\prime\prime}U^T\]
+ where, 
+ \[\Sigma^{\prime\prime} = 0, \sigma_i = 0\]
+ \[\Sigma^{\prime\prime} = \dfrac{\sigma_i}{{\sigma_i}^2 + \gamma}, \sigma_i \neq 0\]
+
+\part{c}
+
+ Then, 
+ \[||x_\gamma|| = ||V\Sigma^{\prime\prime}U^T|| = ||\Sigma^{\prime\prime}||\]
+ Since V and U are orthogonal
+
+ Now:
+ \begin{equation}
+ \dfrac{\sigma_i}{{\sigma_i}^2 + \gamma} = \dfrac{1}{\sigma_i + \dfrac{\gamma}{\sigma_i}} \leq \dfrac{1}{\sigma_i}
+\end{equation}
+ Since , for the original equation, the final x is written as $x=V\Sigma^*U^T$, where the $\Sigma^*$ is defined as 
+ \[\Sigma^* = 0 , \sigma_i = 0\]
+ \[\Sigma^* = \dfrac{1}{\sigma_i} , \sigma_i \neq 0\]
+
+ Similarly,
+ \[||x|| = ||E^*||\]
+ Then , due to equation(11), we have $||E^{\prime\prime}|| \leq ||E^*||$. Hence, we get:
+ \begin{equation}
+	 ||x_\gamma|| \leq ||x||
+ \end{equation}
+ (Proved)
+
+ \part{d}
+	 For the original equation we have 
+	 \[A^TAx = A^Tb\]
+	 \[Bx = A^Tb\]
+	 \[x = B^{-1}A^Tb\]
+	where $B = A^TA$
+	 For the regularized equation , we have
+	 \[(A^TA + \gamma I)x_\gamma = A^Tb\]
+	 \[ B^{-1}(B + \gamma I)x_\gamma = (B^{-1})A^Tb\]
+	 \[ x_\gamma + B^{-1}\gamma x_\gamma = x\]
+	 \begin{equation}
+	  x - x_\gamma = B^{-1}\gamma x_\gamma
+	\end{equation}
+	Taking the norms we get:
+	\[||x - x_\gamma|| \leq ||B^{-1}||||\gamma||||x_\gamma|| \leq ||B^{-1}||||\gamma||||x||\]
+	Now, $||B^{-1}|| = ||(A^TA)^{-1}|| =  \dfrac{1}{\sigma_{min}^2}$, hence:
+	\[\dfrac{||x - x_\gamma||}{||x||} \leq \dfrac{\gamma}{\sigma_{min}^2}\]
+	(answer).
+
+
+\part{e}
+   The matlab code for this part can be found as \textbf {Prob8.m}. Comparing the result for $\gamma = 0$ with that of example-8.8, the svd computation differs from matlab's backslash(using QR) by 0.0002 for $||x||$ since we get $||x||=0.9473$ while book's answer is 0.9471. Note here, that for non-zero small $\gamma$ values in order of $10^{-6}, 10^{-12}$ we get the similar result as reported in example-8.8, which points towards improved accuracy with slightly perturbed $\gamma$. The residual norm comes to be the same for $\gamma=0$ and that of the book's example. \newline
+
+
+ \part{f} 
+   For ill-conditioned problems, where the condition number is very large, indicating a large ratio of the max and min singular values, it is difficult to tune the truncation of the svd. Instead, using the regularization approach, as we derived in (d) of this question, there is a nice way to bound the relative error, using the $\gamma$ as a knob for tuning and hence provides better control on the relatove error. \newline
 
 
 
