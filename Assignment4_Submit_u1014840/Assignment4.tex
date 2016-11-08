@@ -174,7 +174,41 @@ Now, for QR, we write $x = (A^TA)^{-1}A^T b $, and we have represented A=QR by a
 
  And similarly for increasing j's(j limits to k) it holds true since $q_i and q_j$ are orthonromal for $i\neq j$. Thus , in exact arithmatic the modified and classical version are numerically the same. (Proved). \newline
 
- \part{c}
+ \part{c} In goal of the modified algorithm is to keep the orthogonality intact even in the presence of round-off errors. It does this by performing the subtraction immediately after calculating the projections unlike the classical one where all the projections were first calculated and then subtracted. However, for a $3\times2$ example, there are no projection calculations in the first step and only one projection in the second step, and till then there is no difference in the algorithms of the classical and modified. The difference starts when there is another additional projection in which case for modifed it is evlauated after subtraction of the first projection while for the classical it is evaluated first and the subtracted alongwith the first projection. \newline
+ So, here we take a $3\times 3$ example, wherein the similarity and differences will be clear. Consider the 3 linearly independent vectors as below \newline
+ \[ a_1 = <1.1, 3.3, 5.7>\]
+ \[ a_2 = <2.3, 6.7, 0.9>\]
+ \[ a_3 = <1.1, 2.5, 1.3>\]
+ \textbf {For classical} \newline
+ For 1st iteration: 
+ \[w = a_1; r_{11} = ||w|| = 6.6\]
+ \[ q_1 = <0.2, 0.5, 0.8>    \]
+ For 2nd iteration
+ \[w = a_2; r_{12} = q_{1}^Tw = 4.5    \]
+ \[w = w - r_{12}q_1 = <1.4, 4.5, -2.7> \]
+ \[r_{22} = ||w|| = 5.4    \]
+ \[q_2 = <0.3, 0.8, 0.5>    \]
+ For 3rd iteration
+ \[w = a_3; r_{13} = q_{1}^Tw = 2.5 ; r_{23} = q_{2}^Tw = 1.6  \]
+ \[w = w - r_{13}q_1 - r_{23}q_2 = <0.12 -0.1 0,1>    \]
+
+ Now lets come to the modified approach:
+ For 1st iteration: 
+ \[w = a_1; r_{11} = ||w|| = 6.6\]
+ \[ q_1 = <0.2, 0.5, 0.8>    \]
+ For 2nd iteration
+ \[w = a_2; r_{12} = q_{1}^Tw = 4.5    \]
+ \[w = w - r_{12}q_1 = <1.4, 4.5, -2.7> \]
+ \[r_{22} = ||w|| = 5.4    \]
+ \[q_2 = <0.3, 0.8, 0.5>    \]
+ Thus, upto second iteration, it comes to be exact same as expected as described earlier. \newline
+ For the 3rd iteration:
+ \[w = a_3; r_{13} = q_{1}^Tw = 2.5 \]
+ \[w = w - r_{13}q_1 =  <0.6 1.2 -0.7>    \]
+ \[r_{23} = q_{2}^Tw = 1.4   \]
+ \[w = w - r_{23}q_2 = <-0.2 -0.1 0>    \]
+
+  Thus it is evident from this example, that the classical and modified versions produce different results when the number of iterations crosses 2. \newline
 
  \question{4}{Chapter-7, Question-9}
  For the iterative scheme, we have $x_{k+1} = x_{k} + \alpha_{k}p_{k}$, where, $p_{k}$ is the search direction and $\alpha_{k}$ is the step size. This includes the basic statioanry methods as well of the form, $x_{k+1} = x_{k} + M^{-1}r_{k}$.\newline
