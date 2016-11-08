@@ -265,7 +265,67 @@ Now, for QR, we write $x = (A^TA)^{-1}A^T b $, and we have represented A=QR by a
 
 
 
-  \question{6}{GMRES ----}
+  \question{6}{Chapter-7, question-20}
+  \part{a} We are required to solve the the following:
+  \[min_z ||\rho \bf e_1 - \bf H_{k+1,k}\bf z||\]
+  where $H_{k+1,k}$ is a Hessenberg Matrix. We use here Givens rotation to perform the QR decomposition of the Hessenberg matrix. The Givens rotation matrix is an identity matrix except the specific co-ordinates whose rotations are to be performed. It is written as, \newline
+  $G(i,j,\theta) = \begin{bmatrix} 
+	  1 & \dots & 0 & \dots & 0 & \dots & 0 \\
+	  \dots & \dots & c & \dots & -s & \dots & 0 \\
+	  \dots & \dots & \dots & \dots & \dots & \dots & \dots \\
+	  \dots & \dots & s & \dots & c & \dots & 0 \\
+	  \dots & \dots & \dots & \dots & \dots & \dots & \dots \\
+	  0 & \dots & 0 & \dots & 0 & \dots & 1 \\
+  \end{bmatrix}$ where, $c = cos\theta,$ and $s = sin\theta $\newline 
+   that is, all the diagonal elements are 1 except for a given(i,j), where we place the c and s values such that the $2 \times 2$ matrix is formed by them is orthogonal. It affects only the rows i and j and zeros out the (i,j) entry of the matrix. Consider we want to zero out the (i,j) entry such that (i,i) entry is a and (i,j) entry is b. The the following leads to the the required result \newline
+   $\begin{bmatrix}
+	   c & -s \\
+	   s & c \\
+   \end{bmatrix}$ $\begin{bmatrix}
+	   a \\
+	   b \\
+   \end{bmatrix}$ \newline
+   if we define $r = \sqrt[2]{a^2 + b^2}$ and $c = \dfrac{a}{r}$ and $s = \dfrac{-b}{r}$. This results in $sa + cb=0$, exactly what we want, and this matrix $\begin{bmatrix}
+	   c & -s \\
+	   s & c \\
+   \end{bmatrix}$ is also orthonormal.  Hence, the entire G matrix is orthonormal. Thus, we repeatedly apply G to the original matrix to zero out the elements below its diagonal for a Hessenberg matrix that would result in an upper-traiangular matrix hence completing the QR decomposition.\newline
+   Then, in the first iteration we need to remove (2,1), so:
+   \[H_1 = G_{2,1}H\]
+   Then, we need to remove (3,2) 
+   \[ H_2 = G_{3,2}H_1 = G_{3,2}G_{2,1}H\]
+   and in this way continuing to k iterations, we get: 
+   \[R = H_k = G_{k+1,k}\dots G_{2,1}H\]
+   This R is now an upper triangular matrix. Since the G's are orthonormal, we multiply both sides by their transpose, to get 
+   \[H = G_{2,1}^T G_{3,2}^T \dots G_{k+1,k}^T R\]
+   \[H = QR\]
+   This completes our QR decomposition using Givens rotation, such that 
+   \[Q = G_{2,1}^T G_{3,2}^T \dots G_{k+1,k}^T\]
+
+   Note that,Q here is now $(k+1)\times(k+1)$ matrix and R is upper triangular $(k+1)\times k$, with the last row of R being all zeros. \newline
+   In the program, we initialize Q as an identity matrix of size $(k+1)\times(k+1)$. We loop over $i=2->k+1$, and since it is Hessenberg, we essentially need to zero out (i,i-1). So, we set $j=i-1$. If the matrix in the current iterate is H, then we get the following :
+   \[ a = H(i-1,j)\]
+   \[ b = H(i,j)\]
+   \[ r = \sqrt[2]{a^2 + b^2}\]
+   \[ c = \dfrac{a}{r}, s=-\dfrac{b}{r}\]
+   Next, we declare a matrix, $G_{i}$ as an idenity mattrix of size (k+1). We update this matrix with the values of c and s at the specific points.
+   \[ G_{i}(i,i) = c\]
+   \[ G_{i}(j,j) = c\]
+   \[ G_{i}(i,j) = s\]
+   \[ G_{i}(j,i) = -s\]
+   Then evaluate , $H = G_{i}H$, this results in H(i,j) becoming 0. We update Q as $Q*G_{i}^\prime$. At the end of the loop, R=H has the upper triangular matrix and Q is the orthonormal matrix of QR decomposition.\newline
+   So, now we have ,
+   \[H_{k+1,k} = Q_{k+1,k+1}R_{k+1,k}\]
+   We can now write,
+   \[||\rho e_1 - Q_{k+1}R_{k+1,k}z||\]
+   \[||Q_{k+1,k+1}^T \rho e_1 - R_{k+1,k}z||\]
+   \[||Q_{k+1,k+1}^T \rho e_1 - {{R_{k,k}}\choose{0}}z||\]
+   we can solve for the k,k components of , and the remaining will be the residual. Hence, solve for 
+   \[||Q_{k,k}^T \rho e_1 - R_{k,k}z||\]
+   Hence, we solve from here:
+   \[z = R_{k,k}^{-1} Q_{k,k}||\rho||e_1\]
+
+   Call the program as $minimizer(\rho,H,sz) $, where H is the Hessenberg matrix and sx is the value of k for $H_{k+1,k}$. Program file is minimizer.m. It calls internally givens1.m, where the givens rotation is implemented. \newline
+
 
   \question{7}{Chapter-8, question-7}
   \part{a} Given a column stochastic matrix,P, of size $n \times n$ whose all entries are non-negative and each column sum to 1. 
@@ -332,7 +392,7 @@ Now, for QR, we write $x = (A^TA)^{-1}A^T b $, and we have represented A=QR by a
   \textbf {proof:} We can write the following :
   \[ y_{j}^TA = \lambda_{j}y_{j}^T \]
   \[ Ax_{i} = \lambda_{i}x_{i}\]
-  Transposing and then Multiplying the first by $y_j$ and the second by $x_{i}^T$, we get
+  Transposing and then Multiplying the first by $x_{i}^T$ and the second by $y_j$, we get
   \[ x_{i}^TA^Ty_j = \lambda_ix_{i}^Ty_j\]
   \[ x_{i}^TA^Ty_j = \lambda_jx_{i}^Ty_j\]
   Subtracting the above leads to the fact that is $\lambda_i \neq \lambda_j$, then:
