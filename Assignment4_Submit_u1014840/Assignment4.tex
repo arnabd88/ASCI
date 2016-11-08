@@ -394,10 +394,10 @@ Thus every multiplication with E, results in a scalar value that scales the all 
  (A^TA + \gamma I)x_{\gamma} = A^Tb
  \end{equation}
  \part{a} 
- \[K_2(A^TA + \gamma I) = \dfrac{\lambda_{max} + \gamma}{\lambda_{min} + \gamma} \]
- \[ = \dfrac{\lambda_{max}(1 + \dfrac{\gamma}{\lambda_{max}})}{\lambda_{min}(1 + \dfrac{\gamma}{\lambda_{min}})}\]
+ \[K_2(A^TA + \gamma I) = \sqrt[2]{\dfrac{\lambda_{max}^2 + \gamma}{\lambda_{min}^2 + \gamma}} \]
+ \[ = \sqrt[2]{\dfrac{\lambda_{max}^2(1 + \dfrac{\gamma}{\lambda_{max}^2})}{\lambda_{min}^2(1 + \dfrac{\gamma}{\lambda_{min}^2})}}\]
  Now, since, $\lambda_{max} > \lambda_{min}$, hence $\dfrac{1}{\lambda_{max}} < \dfrac{1}{\lambda_{min}}$, and using this in the previous equation , we get
- \[K_2(A^TA + \gamma I) = \dfrac{\lambda_{max}(1 + \dfrac{\gamma}{\lambda_{max}})}{\lambda_{min}(1 + \dfrac{\gamma}{\lambda_{min}})} \leq \dfrac{\lambda_{max}}{\lambda_{min}} = K_2^2(A)\]
+ \[K_2(A^TA + \gamma I) = \sqrt[2]{\dfrac{\lambda_{max}^2(1 + \dfrac{\gamma}{\lambda_{max}^2})}{\lambda_{min}^2(1 + \dfrac{\gamma}{\lambda_{min}^2})}} \leq \sqrt[2]{\dfrac{\lambda_{max}^2}{\lambda_{min}^2}} =  \dfrac{\lambda_{max}}{\lambda_{min}} = K_2^2(A)\]
  (Proved). \newline
 
  \part{b} 
