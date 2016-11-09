@@ -82,10 +82,10 @@ and
 \begin{equation}
 	3x_1 + 5x_2 = 4.9
 \end{equation}
-Solving (i) and (ii) , we get: $x_1 = ln\gamma_1 = 0.5$ and $x_2 = \gamma_2 = 0.95$ \newline
+Solving (i) and (ii) , we get: $x_1 = ln\gamma_1 = 0.05$ and $x_2 = \gamma_2 = 0.95$ \newline
 Thus, we have , 
-\[v(t) = lnu(t) = ln(0.5) + 0.95t\]
-\[=> u(t) = 0.5 \times exp(0.95t)\]
+\[v(t) = lnu(t) = 0.05 + 0.95t\]
+\[=> u(t) = exp(0.05 + 0.95t)\]
 (Answer). \newline
 
 \question{2}{Chapter-6, question-5}
@@ -190,7 +190,7 @@ Now, for QR, we write $x = (A^TA)^{-1}A^T b $, and we have represented A=QR by a
  \[q_2 = <0.3, 0.8, 0.5>    \]
  For 3rd iteration
  \[w = a_3; r_{13} = q_{1}^Tw = 2.5 ; r_{23} = q_{2}^Tw = 1.6  \]
- \[w = w - r_{13}q_1 - r_{23}q_2 = <0.12 -0.1 0,1>    \]
+ \[w = w - r_{13}q_1 - r_{23}q_2 = <0.12, -0.1 0,1>    \]
 
  Now lets come to the modified approach:
  For 1st iteration: 
@@ -204,9 +204,9 @@ Now, for QR, we write $x = (A^TA)^{-1}A^T b $, and we have represented A=QR by a
  Thus, upto second iteration, it comes to be exact same as expected as described earlier. \newline
  For the 3rd iteration:
  \[w = a_3; r_{13} = q_{1}^Tw = 2.5 \]
- \[w = w - r_{13}q_1 =  <0.6 1.2 -0.7>    \]
+ \[w = w - r_{13}q_1 =  <0.6, 1.2, -0.7>    \]
  \[r_{23} = q_{2}^Tw = 1.4   \]
- \[w = w - r_{23}q_2 = <-0.2 -0.1 0>    \]
+ \[w = w - r_{23}q_2 = <-0.2, -0.1, 0>    \]
 
   Thus it is evident from this example, that the classical and modified versions produce different results when the number of iterations crosses 2. \newline
 
