@@ -19,27 +19,27 @@ xk = x0 ;
 iter = 10 ;
 
 alphamax = 1;
-alphamin = 2^-16;
+alphamin = 2^-20;
 sigma = 1e-4;
-for i=1:20
+for i=1:3
 	pk = -Gk*double(g(xk(1),xk(2),xk(3),xk(4))) 
 	%%---- Determine \alpha -------------
-	%% rk = -c - H*xk 
+	 rk = -c - H*xk 
 	%% alphaK = (rk'*rk)/(pk'*(H*pk))
 	alphaK = alphamax;
 	xnew = xk + alphaK*pk ;
-	phixn = f(xnew(1),xnew(2),xnew(3),xnew(4));
-	phix = f(xk(1),xk(2),xk(3),xk(4));
+	phixn = double(f(xnew(1),xnew(2),xnew(3),xnew(4)));
+	phix = double(f(xk(1),xk(2),xk(3),xk(4)));
 
 	pgphi = pk'*double(g(xk(1),xk(2),xk(3),xk(4)))
 	while(phixn > phix + sigma * alphaK * pgphi)*(alphaK > alphamin)
-		mu = -0.5 * pgphi * alphaK / (phixn - phix -alphaK*pgphi)
+		mu = -0.5 * pgphi * alphaK / (phixn - phix -alphaK*pgphi) 
 		if(mu < .1)
 			mu = 0.5
 		end
 		alphaK = mu*alphaK;
 		xnew = xk + alphaK*pk;
-		phixn = f(xnew(1),xnew(2),xnew(3),xnew(4));
+		phixn = double(f(xnew(1),xnew(2),xnew(3),xnew(4)));
 	end
 	%%-----------------------------------
 	xnew = xk + alphaK*pk ;
@@ -47,7 +47,7 @@ for i=1:20
 	yk = double(g(xnew(1),xnew(2),xnew(3),xnew(4))) - double(g(xk(1), xk(2), xk(3), xk(4)));
 	Gnew = (1 - (wk*yk')/(yk'*wk))*Gk*( 1 - (yk*wk')/(yk'*wk)) + (wk*wk')/(yk'*wk);
 	Gk = Gnew;
-	xk = xnew;
+	xk = xnew
 	alphamax = alphaK ;
 
 end
