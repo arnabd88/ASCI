@@ -524,6 +524,16 @@ In the region , $0 \leq u < 1$, only $N_{3,1}=1$, other $N_{i,1}'s$ are zero. No
 Thus plugging in the base cases , $N_{i,1}'s$, present in the recursive list of respective basis functions, we obtain the representation of the bspline basis functions. (Answer). \newline
 
 
+\question{10}{Chapter-11: question-15}
+  \begin{figure}[H]
+   \centering
+  \includegraphics[width=15cm, height=15cm]{fig10}
+  \caption{Matlab plots for different interpolant types}
+  \end{figure}
+
+  The figure shows the plots for the polynomial interpolant, cubic spline and the custom-interpolant method with $\epsilon =0.1,0.01, 0.001 and 0$. The matlab code is available as $Prob10.m$. The polynomial interpolant is of degree 6. Although it fits the data correctly, one of its bad property is due to its high degree and global control over all points, around the absiccae points where the data is not available for fitting, like from 0.5 to 0.7, the polynomial has the tendency to oscillate and explode to high values. In comparison, the cubic spline is significantly smooth and the curve is modeled closely to the given interpolating points.Since, the control here is local to set of 4 points, the degree is cubic. For the custom interpolants with the provided basis functions and tunable $\epsilon$, we see that as $\epsilon reduces$, the smoothness of the curve also reduces and around $\epsilon=0$, it becomes piecewise linear. 
+
+
 
 
 
