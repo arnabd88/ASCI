@@ -48,7 +48,112 @@ A = $\begin{bmatrix}
 	a_{21} & a_{22} & a_{23} & \dots & a_{2n} \\
 	\dots & \dots & \dots & \dots & \dots \\
 	a_{n1} & a_{n2} & a_{n3} & \dots & a_{nn} \\
-\end{bmatrix}$ and $A_{2}$ = 
+\end{bmatrix}$ , $x$ = $\begin{bmatrix}
+			x_1 \\
+			x_2 \\
+			\dots \\
+			x_n \\
+\end{bmatrix}$ and $b$ = $\begin{bmatrix}
+			b_1 \\
+			b_2 \\
+			\dots \\
+			b_n \\
+			\end{bmatrix}$ \newline
+The b vector gets modified as $\begin{bmatrix} 
+				b_1 - x_1^3 \\
+				b_2 - x_2^3 \\
+				\dots \\
+				b_n - x_n^3 \\
+\end{bmatrix}$, so that now we have a non-linear system that can be expressed as \textbf {f(x)=}, where f is a vector of functions represented as :
+\[ f_1(x) = (a_{11}x_1 + x_1^3) + a_{12}x_2 + \dots + a_{1n}x_n - b_1 = 0\]
+\[ f_2(x) = a_{21}x_1 + (a_{22}x_2 + x_2^3) + \dots + a_{2n}x_n - b_2 = 0\]
+\[ \dots \]
+\[ f_i(x) = a_{i1}x_1 + a_{i2}x_2 + \dots + (a_{ii}x_i + x_i^3) + \dots + a_{in}x_n - b_i = 0\]
+\[ \dots \]
+\[ f_n(x) = a_{n1}x_1 + a_{n2}x_2 + \dots + a_{nn}x_n + x_n^3 - b_n = 0\]
+
+Then, the Jacobian of this vector of functions, f, will be: \newline
+J = $\begin{bmatrix}
+	\dfrac{\partial f_1}{\partial x_1} & \dfrac{\partial f_1}{\partial x_2} & \dfrac{\partial f_1}{\partial x_3} & \dots & \dfrac{\partial f_1}{\partial x_n}\\
+	\dfrac{\partial f_2}{\partial x_1} & \dfrac{\partial f_2}{\partial x_2} & \dfrac{\partial f_2}{\partial x_3} & \dots & \dfrac{\partial f_2}{\partial x_n}\\
+	\dots & \dots & \dots & \dots & \dots \\
+	\dfrac{\partial f_n}{\partial x_1} & \dfrac{\partial f_n}{\partial x_2} & \dfrac{\partial f_n}{\partial x_3} & \dots & \dfrac{\partial f_n}{\partial x_n}\\
+\end{bmatrix}$\newline \newline = $\begin{bmatrix}
+		(a_{11} + 3x_1^2) & a_{12} & a_{13} & \dots & a_{1i} & \dots & a_{1n} \\
+		a_{21} & (a_{22} + 3x_2^2) & a_{23} & \dots & a_{2i} & \dots & a_{2n} \\
+		\dots & \dots & \dots & \dots & \dots & \dots & \dots \\
+		a_{i1} & a_{i2} & a_{i3} & \dots & (a_{ii} + 2x_i^2) & \dots & a_{in} \\
+		\dots & \dots & \dots & \dots & \dots & \dots & \dots \\
+		a_{n1} & a_{n2} & a_{n3} & \dots & a_{ii} & \dots & (a_{in} + 3x_n^2) \\
+		 \end{bmatrix}$ = A + D, where D is: \newline \newline
+		 D = $\begin{bmatrix}
+			 3x_1^2 & 0 & 0 & \dots & 0 & \dots & 0 \\
+			 0 & 3x_2^2 & 0 & \dots & 0 & \dots & 0 \\
+			\dots & \dots & \dots & \dots & \dots & \dots & \dots \\
+			 0 & 0 & 0 & \dots & 3x_i^2 & \dots & 0 \\
+			\dots & \dots & \dots & \dots & \dots & \dots & \dots \\
+			 0 & 0 & 0 & \dots & 0 & \dots & 3x_n^2 \\
+		      \end{bmatrix}$ \newline
+
+  \part{b} Given that A is strictly diagonally dominant with positive elements in its diagonal. We know that a  strictly diagonally dominant matrix is non-singular, hence \textbf {A is non-singular}. Now, diagonal dominance means:
+  \[ \forall i, |a_{ii}| \geq \sum_{j=1}^n |a_{ij}|, j \neq i\]
+  Since, D is a diagonal matrix with non-negative elements along its diagonal, hence adding D to A, conserves the diagonal dominance in the resulting matrix J. Thus, at any iterate, the Jacobian, J, also remains diagonally dominant and hence non-singular. \newline
+
+  \part{c} In Newton's method, we are theoretically basically solving the following:
+  \begin{equation}
+	  x_{k+1} - x_k = -J(x_k)f(x_k)
+	  \label{eq:newton}
+  \end{equation}
+  where, $x_k$ is the value of x in the k'th iteration. For convergence of the method, we want the following:
+  \begin{equation}
+	  \dfrac{|| x_{k+1} - x^*||}{||x_k - x^*||} = \lambda
+	  \label{eq:conv}
+  \end{equation}
+  where, $\lambda$ is some positive constant, and $x^*$ is the optimal solution. \newline
+  The error at the (k+1)'th iteration can be written as:
+  \begin{equation}
+	  ||e_{k+1}|| = || x_{k+1} - x^*|| = || x_k - J(x_k)^{-1}f(x_k) - x^*|| = || e_k - J(x_k)^{-1}f(x_k) ||
+  \label{eq:cerr}
+  \end{equation}
+
+  Now, from Taylor's series expansion, we have:
+  \[f(x_k) = f(x^*) + J(x_k)(x_k - x^*) + \dfrac{1}{2}(x_k - x^*)^TH(x_k)(x_k - x^*) + \dots\]
+  Approximating higher order terms:
+  \[f(x_k) = f(x^*) + J(x_k)e_k + \dfrac{1}{2}(e_k)^TH(x_k)(e_k) \]
+
+  At the optima, $f(x^*)=0$. Multiplying both sides by $J(x_k)^{-1}$ thus we get:
+  \[ J(x_k)^{-1} f(x_k) = 0 + e_k +  \dfrac{1}{2}J(x_k)^{-1}(e_k)^TH(x_k)(e_k)\]
+
+  Replacing this in $\eqref{eq:cerr}$
+  \begin{equation}
+   ||e_{k+1}|| = || e_k - e_k - \dfrac{1}{2}J(x_k)^{-1}(e_k)^TH(x_k)(e_k) || = ||\dfrac{1}{2}J(x_k)^{-1}(e_k)^TH(x_k)(e_k) || \leq \dfrac{||J^{-1}|| ||H||}{2} ||e_k||^2
+   \label{eq:finalConv}
+  \end{equation}
+
+  Thus $\eqref{eq:finalConv}$ indicates that if the Jacobian is non-singular, then it quadratically converges. So, the only remaining peice is to show that the Jacobian is non-singular. We know that a symmetric positive definite matrix is non-singular. If we can proove that J is symmetric positive definite, then it suites our purpose: Consider any non-zero vector, \textbf {u}, then:
+  \[u^T J u = u^T (A + D) u = u^TAu + u^TDu\]
+  we know that A is symmetric positive definite, hence $u^TAu > 0$. So, we need to show now $u^TDu > 0$. \newline
+  $u^TDu$ = $\begin{bmatrix}
+	       u_1 & u_2 & \dots & u_n \\
+	    \end{bmatrix}$ $\begin{bmatrix}
+		    		3x_1^2 & 0 & 0 & \dots & 0 \\
+				0 & 3x_2^2 & 0 & \dots & 0 \\
+				\dots & \dots & \dots & \dots & \dots \\
+				0 & 0 & 0 & \dots & 3x_n^2 \\
+			    \end{bmatrix}$ $\begin{bmatrix}
+				    		u_1 \\
+						u_2 \\
+						\dots \\
+						u_n \\
+				    	   \end{bmatrix}$ = $x_1^2u_1^2 + x_2^2u_2^2 + \dots + x_i^2u_i^2 + \dots + x_n^2u_n^2 > 0$ \newline
+
+  Hence,
+  \[u^T J u = u^T (A + D) u = u^TAu + u^TDu > 0\]
+  Thus, the Jacobian is also symmetric positive definite and hence invertible and non-singular. Hence, it is guaranteed to converge as per $\eqref{eq:finalConv}$. \newline
+	  	  
+
+ 
+
 
 
 
