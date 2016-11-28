@@ -1,3 +1,6 @@
+
+
+
 function [] = q10
 
 % Data Set
