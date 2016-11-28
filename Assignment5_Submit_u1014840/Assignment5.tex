@@ -41,6 +41,53 @@
 
 
 
+\question{1}{Chapter-9: Question-5}
+An $n \times n$ linear system of equations $Ax=b$ is modified such that every $b_i$ is replaced with $b_i - x_i^3$. \newline\part{a} For the system $Ax=b$, thus we have: \newline
+A = $\begin{bmatrix}
+	a_{11} & a_{12} & a_{13} & \dots & a_{1n} \\
+	a_{21} & a_{22} & a_{23} & \dots & a_{2n} \\
+	\dots & \dots & \dots & \dots & \dots \\
+	a_{n1} & a_{n2} & a_{n3} & \dots & a_{nn} \\
+\end{bmatrix}$ and $A_{2}$ = 
+
+
+
+\question{7}{Chapter-10: Question-25}
+
+\part{a} Let the quadratic polynomial be 
+\begin{equation}
+	p(x) = c_0 + c_1 x + c_2 x^2
+	\label{eq:quad}
+\end{equation}
+
+Then , at x=0:
+\[ p(0) = c_0 = f(0) = 1 \]
+and
+\[ p^\prime(0) = c_1 = f^\prime(0) = -1\]
+
+At, x=1:
+\[ c_0 + c_1 + c_2 = f(1) = 2 \]
+Solving the above 3 equations, gives
+\[ c_0 = 1\]
+\[ c_1 = -1\]
+\[ c_2 = 2\]
+
+Plugging these coefficients back to $\eqref{eq:quad}$, we get the following quadratic interpolant:
+\begin{equation}
+	p(x) = 1 - x + 2x^2
+	\label{eq:poly}
+\end{equation}
+
+By taking the first derivative and the second derivative of $\eqref{eq:poly}$, we get:
+\[p^\prime(x) = -1 + 4x\]
+\[p^{\prime\prime}(x) = 4 > 0\]
+Equating the first derivative to 0, we get a stationary point at $x=\dfrac{1}{4}$, and since the second derivative, $p^{\prime\prime}(x) > 0$, hence this point is a minima. Thus we have found  $x^* = \dfrac{1}{4}$. (Answer) \newline
+
+\part{b}
+We already found the minima $x^* = \dfrac{1}{4}$ which is $0 < \dfrac{1}{4} < 1$. Since, it is quadratic, it has only a single maxima or minima becuase its first derivative is linear and hence cannot have multiple roots. Since, we have found a minima, hence it has to be the unique minima satisfying $0 < x^* < 1$. 
+For the original function, given it has continuous second order derivative, however nothing is mentioned about its higher derivatives. Now, since $f(1) > f(0)$, there is a point in $[0,1)$, from where the function f starts to increase. Since, $f^\prime(0) < 0$, hence $x=0$ is not the point where f achieves a minimum. So, f achieves a minimum at $x^* = 0 + \delta$, where $\delta$ is a positive quantity between 0 and 1. Hence, f has a unique minimum at a point $0 < x < 1$ .Since , f has continuous second order derivative in this region, we do not know about its higher order derivatives. If it is quadratic, then this minima is unique for same reasons as the quadratic polynomial. But , if the underlying function is not quadratic, then the uniqueness cannot be asserted since there can be many more minimas in this region. 
+
+
 \question{8}{Chapter-11: Question-3}
 Let $f \in C^3[a,b]$ be given at equidistant points, $x_i = a + ih,$ where $i=0,1,2, \dots, n$ and $nh = b-a$. $f^\prime(a)$ is given as well. \newline
 
@@ -76,7 +123,7 @@ Thus, from the above relations we have the following set of equations:
 n equations for
 \[ a_i = f(x_i)\]
 
-nequations for
+n equations for
 \[ b_i h + ci h^2 - (a_{i+1} - a_i) = 0\]
 
 n equations for 
@@ -90,6 +137,26 @@ n equations for
 
 Thus, in total we have 4n variables with 4n equations which can be solved to get the 3n coefficients $\{a_i, b_i, c_i\}$ and the derivatives $d_i$. \newline
 
+\textbf{One more method:} Since, we want the piecewise interpolant to be $C^1$ continuous, hence at the interior point $x_i$, the first derivative of $S_{i-1}(x)$ should equal the first derivative of $S_i(x)$. Hence, we have the following relation:
+\[ S_{i-1}(x_i) = S_i(x_i)\]
+\[ b_{i-1} + 2c_{i-1}(x_i - x_{i-1}) = b_i\]
+\[ b_{i-1} - b_i + 2c_{i-1} h = 0\]
+This will have (n-1) equations since we equate between two consecutive interior points. \newline
+Thus, now we can consider the following set of equations: \newline
+n equations for
+\[ a_i = f(x_i)\]
+
+n equations for
+\[ b_i h + ci h^2 - (a_{i+1} - a_i) = 0\]
+
+(n-1) equations for 
+\[ b_{i-1} - b_i + 2c_{i-1} h = 0\]
+
+and 1 equation for the condition that the derivative at $x=a$, $f^\prime(a)$, is given.
+\[S_0^\prime(a) = b_0 = f^\prime(a) \]
+\[ b_0 - f^\prime(a) = 0\]
+
+Thus, now we have 3n equations and 3n variables, which can be solved to get the 3n coefficients $\{a_i, b_i, c_i\}$. \newline
 
  \part{b} The error estimate for an n-degree interpolate, $p_n(x)$, with respect to the original function, $f(x)$, is expressed as: 
  \[ f(x) - p_n(x) = \dfrac{f^{(n+1)}(\zeta)}{(n+1)!} \prod_{i=0}^n (x - x_i)\]
