@@ -5,105 +5,107 @@ syms x2
 syms x3
 syms x4
 
-% Column Vector x
 x  = [x1,x2,x3,x4]'
 
-% Initial guess [-1,3,3,0]';
 x0 = [-1,3,3,0]'
-k  = 0
-convergence = 1e-10;
+iter_k  = 0
+epsilon = 1e-10;
 
-% c : 1 x 4
-c = [5.04, - 59.40, 146.40, -96.60]'
 
 % H : 4 x 4
-H = [ 0.16,  -1.20,   2.40,  -1.40 ;...
-     -1.20,  12.00, -27.00,  16.80 ;...
-      2.40, -27.00,  64.80, -42.00 ;...
-     -1.40,  16.80, -42.00, 28.00 ]
+H = [ 0.16,  -1.20,   2.40,  -1.40 ;  -1.20,  12.00, -27.00,  16.80 ; 2.40, -27.00,  64.80, -42.00 ; -1.40,  16.80, -42.00, 28.00 ]
+
+% Given c : 
+c = [5.04, - 59.40, 146.40, -96.60]'
 
 % Function
-f = c'*x + (1/2)*x'*H*x
+phix = c'*x + (1/2)*x'*H*x
  
-% Differentiation
+% Get the gradient
+phi1 = diff(phix,x1);
+phi2 = diff(phix,x2);
+phi3 = diff(phix,x3);
+phi4 = diff(phix,x4);
 
-% syms x;
-% f(x)  = sin(x^2);
-% df    = diff(f,x);
-% `--> df(x) = 2*x*cos(x^2)
+% Form the vector of functions, basically gradient of phix
+phiv = [phi1,phi2,phi3,phi4];
 
-% Differentiate per dimension
-% gradient of f
-f1 = diff(f,x1);
-f2 = diff(f,x2);
-f3 = diff(f,x3);
-f4 = diff(f,x4);
-
-% Vector of functions
-fv = [f1,f2,f3,f4];
-
-% Calculate hessian
-h    = jacobian(fv,x')
+% Get the Jacobian of the gradient
+hess    = jacobian(phiv,x')
 
 % Init loop variables
-k    = 0;
+iter_k    = 0;
 xk1 = x0
-d    = 1
+delta    = 1
 
 % Start Newtons Method
-while d > convergence
+while delta > epsilon
     xk   = xk1;
     
-    % fun    = x^2;
-    % test_f = inline(fun)
-    % feval(test_f,2)
-    
-    % evaluate the gradient of f at xk
-    fk   = [feval(inline(f1),xk(1),xk(2),xk(3),xk(4)),...
-            feval(inline(f2),xk(1),xk(2),xk(3),xk(4)),...
-            feval(inline(f3),xk(1),xk(2),xk(3),xk(4)),...
-            feval(inline(f4),xk(1),xk(2),xk(3),xk(4))]
+    % evaluate the gradient of phix at xk
+    phik   = [feval(inline(phi1),xk(1),xk(2),xk(3),xk(4)),feval(inline(phi2),xk(1),xk(2),xk(3),xk(4)),feval(inline(phi3),xk(1),xk(2),xk(3),xk(4)),feval(inline(phi4),xk(1),xk(2),xk(3),xk(4))]
     
     % solve for pk    
-    pk   = -1 * (double(h)) \ fk'    
+    pk   = -1 * (double(hess)) \ phik'    
     
     % find x_{k + 1}
     xk1 = xk + pk 
     
-    % calculate convergence criterion
-    d    = norm(xk - xk1)
+    % calculate epsilon criterion
+    delta    = norm(xk - xk1)
     
     % increment counter
-    k = k + 1;
+    iter_k = iter_k + 1;
     
 end % End Newtons Method
 
-xk1
-d
-k
+x_newton = xk1;
+newton_iter_k = iter_k ;
 
 % Re-Init loop variables
-k    = 0;
+iter_k    = 0;
 xk1 = x0;
-d    = 1;
+delta    = 1;
 
 gk   = eye(4);
+alphamax = 1;
+alphamin = 2^-10;
+sigma = 1e-4;
 
 % Start BFGS
-while d > convergence && k < 100
+while delta > epsilon && iter_k < 100
     
     xk = xk1;
     
-    % evaluate the gradient of f at xk
-    fk   = [feval(inline(f1),xk(1),xk(2),xk(3),xk(4)),...
-            feval(inline(f2),xk(1),xk(2),xk(3),xk(4)),...
-            feval(inline(f3),xk(1),xk(2),xk(3),xk(4)),...
-            feval(inline(f4),xk(1),xk(2),xk(3),xk(4))];
+    % evaluate the gradient of phix at xk
+    phik   = [feval(inline(phi1),xk(1),xk(2),xk(3),xk(4)),feval(inline(phi2),xk(1),xk(2),xk(3),xk(4)),feval(inline(phi3),xk(1),xk(2),xk(3),xk(4)),feval(inline(phi4),xk(1),xk(2),xk(3),xk(4))];
     %     
-    pk = -1 * gk * fk';    
+    pk = -1 * gk * phik';    
     
     % find a suitable step size ak
-    ak = 0.001;
+    ak = 0.01;
+
+	%%---- Determine \alpha -------------
+	 rk = -c - H*xk 
+	%% alphaK = (rk'*rk)/(pk'*(H*pk))
+	ak = alphamax;
+	xk1 = xk + ak*pk ;
+	phixn = feval(inline(phix), xk1(1), xk1(2), xk1(3), xk1(4));
+	phixk = feval(inline(phix), xk(1), xk(2), xk(3), xk(4));
+
+%	pgphi = pk'*double(gk(xk(1),xk(2),xk(3),xk(4)))
+	pgphi = pk'*phik'
+	while(phixn > phixk + sigma * ak * pgphi) && (ak > alphamin)
+		mu = -0.5 * pgphi * ak / (phixn - phixk -ak*pgphi) 
+		if(mu < .1)
+			mu = 0.5
+		end
+		ak = mu*ak;
+		xk1 = xk + ak*pk;
+		phixn = feval(inline(phix), xk1(1), xk1(2), xk1(3), xk1(4));
+	end
+	%%-----------------------------------
+	
     
     %
     xk1 = xk + (ak * pk);
@@ -111,32 +113,34 @@ while d > convergence && k < 100
     %
     wk = ak * pk;
     
-    % evaluate the gradient of f at xk1
-    fk1   = [feval(inline(f1),xk1(1),xk1(2),xk1(3),xk1(4)),...
-            feval(inline(f2),xk1(1),xk1(2),xk1(3),xk1(4)),...
-            feval(inline(f3),xk1(1),xk1(2),xk1(3),xk1(4)),...
-            feval(inline(f4),xk1(1),xk1(2),xk1(3),xk1(4))];
+    % evaluate the gradient of phix at xk1
+    phik1   = [feval(inline(phi1),xk1(1),xk1(2),xk1(3),xk1(4)), feval(inline(phi2),xk1(1),xk1(2),xk1(3),xk1(4)),feval(inline(phi3),xk1(1),xk1(2),xk1(3),xk1(4)),feval(inline(phi4),xk1(1),xk1(2),xk1(3),xk1(4))];
     
     %
-    yk = fk1' - fk';
+    yk = phik1' - phik';
     
     I   = eye(4);
     
     s  = yk' * wk;
     
-    gk1 = (I - (wk * yk')/s)*...
-           gk *...
-          (I - (yk*wk')/s) + ...
-          ( wk * wk' )/s ;
+    gk1 = (I - (wk * yk')/s)* gk * (I - (yk*wk')/s) +  ( wk * wk' )/s ;
       
-    % calculate convergence criterion
-    d    = norm(xk - xk1);
+    % calculate epsilon criterion
+    delta    = norm(xk - xk1)
     
      % increment counter
-    k = k + 1
+    iter_k = iter_k + 1
+
+	gk = gk1;
     
 end % BFGS
 
-xk1
-k
-d
+
+x_bfgs = xk1;
+bfgs_iter_k = iter_k ;
+
+%%--- final ---
+x_newton
+x_bfgs
+newton_iter_k
+bfgs_iter_k
