@@ -82,7 +82,7 @@ J = $\begin{bmatrix}
 		(a_{11} + 3x_1^2) & a_{12} & a_{13} & \dots & a_{1i} & \dots & a_{1n} \\
 		a_{21} & (a_{22} + 3x_2^2) & a_{23} & \dots & a_{2i} & \dots & a_{2n} \\
 		\dots & \dots & \dots & \dots & \dots & \dots & \dots \\
-		a_{i1} & a_{i2} & a_{i3} & \dots & (a_{ii} + 2x_i^2) & \dots & a_{in} \\
+		a_{i1} & a_{i2} & a_{i3} & \dots & (a_{ii} + 3x_i^2) & \dots & a_{in} \\
 		\dots & \dots & \dots & \dots & \dots & \dots & \dots \\
 		a_{n1} & a_{n2} & a_{n3} & \dots & a_{ii} & \dots & (a_{in} + 3x_n^2) \\
 		 \end{bmatrix}$ = A + D, where D is: \newline \newline
@@ -150,9 +150,41 @@ J = $\begin{bmatrix}
   Hence,
   \[u^T J u = u^T (A + D) u = u^TAu + u^TDu > 0\]
   Thus, the Jacobian is also symmetric positive definite and hence invertible and non-singular. Hence, it is guaranteed to converge as per $\eqref{eq:finalConv}$. \newline
+
+
 	  	  
 
  
+
+
+\question{2}{Chapter-9: Question-6}
+
+\part{a} Given a linear system of equations, $Ax=b$, on which we apply Newton's method. For a linear system, the Jacobian, J, will be :
+J = $\begin{bmatrix}
+	\dfrac{\partial f_1}{\partial x_1} & \dfrac{\partial f_1}{\partial x_2} & \dfrac{\partial f_1}{\partial x_3} & \dots & \dfrac{\partial f_1}{\partial x_n}\\
+	\dfrac{\partial f_2}{\partial x_1} & \dfrac{\partial f_2}{\partial x_2} & \dfrac{\partial f_2}{\partial x_3} & \dots & \dfrac{\partial f_2}{\partial x_n}\\
+	\dots & \dots & \dots & \dots & \dots \\
+	\dfrac{\partial f_n}{\partial x_1} & \dfrac{\partial f_n}{\partial x_2} & \dfrac{\partial f_n}{\partial x_3} & \dots & \dfrac{\partial f_n}{\partial x_n}\\
+\end{bmatrix}$\newline \newline = $\begin{bmatrix}
+		a_{11} & a_{12} & a_{13} & \dots & a_{1i} & \dots & a_{1n} \\
+		a_{21} & a_{22} & a_{23} & \dots & a_{2i} & \dots & a_{2n} \\
+		\dots & \dots & \dots & \dots & \dots & \dots & \dots \\
+		a_{i1} & a_{i2} & a_{i3} & \dots & a_{ii} & \dots & a_{in} \\
+		\dots & \dots & \dots & \dots & \dots & \dots & \dots \\
+		a_{n1} & a_{n2} & a_{n3} & \dots & a_{ii} & \dots & a_{in} \\
+		 \end{bmatrix}$ = A  \newline
+
+ Thus, Newton's method applied to this problem becomes:
+ \[ x^* = x_1 = x_0 + A^{-1}(b - Ax_0) = A^{-1}b\]
+ Hence, it will converge in a single iteration.
+
+ \part{b}
+ The Newton's method is of the form:
+ \[ J(x_k)(x_{k+1} - x_k) = -f(x_k)\]
+
+ If the Jacobian is singular at the solution, then theoretically it means $\Delta x_k = x_{k+1} - x_k$, will be potentially large in the region close to the solution which means the values of x at the k'th and (k+1)'th iterate will have a large difference implying that convergence will be extremely slow and even the convergence might be lost, since two consecutive iterations will not result in close 'x' values that can meet the convergence limits. Also, since J is singular, hence the condition numner given by $||J||||J^{-1}||$ will be infinitely large indicating an ill-conditioned system, which will not potentially converge. \newline
+
+
 
 
 
