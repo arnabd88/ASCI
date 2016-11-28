@@ -197,6 +197,47 @@ The general converegnce expression for any method is given as:
 where, $\lambda$ is the asymptotic error constant and $\alpha$ denotes the rate of convergence. For Newtons's method, if the initial guess is relatively close enough to the solution, then the convergence is quadratic, that is, $\alpha=2$. For BFGS, the convergence is superlinear, that is, $1 < \alpha < 2$. Thus, BFGS is slower to converge than the quadratic convergence of Newton's method, which explains why BFGS takes larger number of iterations . \newline
 
 
+\question{4}{Chapter-9: Question-22}
+Given problem:
+\[ \min_{y} ||y||_p ; s.t. Jy=b\]
+
+where J is $m \times n, m \leq n$ and p=2, indicating L2-norm. \newline
+
+\part{a} Here, we have squared the l2-normed expression, which allows us to get rid of the square-root sign. The multiplication by $\dfrac{1}{2}$ is just a constant which we can get rid of when taking the first derivative. This does not changes the minimizer because, the solution coefficients obtained will still remain the same. Basically, the point where $||y||_2^2$ is minimized will be the same where $||y||_2$ is minimized. \newline
+
+\part{b} So, now we have a slightly modified form of the the problem:
+\[ \min_{y} \dfrac{1}{2}||y||_2^2 ; s.t. Jy = b \]
+
+Now we can break the objective function further as:
+\[ \dfrac{1}{2}||y||_2^2 = \dfrac{1}{2}y^T I y - 0^T y\]
+
+This now becomes a quadratic programming problem with equality constraints. Thus, we have the Lagrangian as:
+\[ \mathcal{L}(y,\lambda) = \dfrac{1}{2}y^T I y - \lambda^T(b - Jy) \]
+
+Then the KKT conditions will give:
+\[ \Delta_y\mathcal{L}(y^*, \lambda^*) = 0 \]
+\begin{equation}
+	Iy + J^T\lambda = 0
+	\label{eq:kkt1}
+\end{equation}
+and
+\[ c_i(y^*) = 0\]
+\begin{equation}
+	 b - Jy = 0
+	 \label{eq:kkt2}
+\end{equation}
+
+Combining the above, we get the following system of linear equations: \newline
+$\begin{bmatrix}
+	I & J^T \\
+	J & 0 \\
+\end{bmatrix}$ $\begin{bmatrix}
+			y \\
+			\lambda \\
+		\end{bmatrix}$ = $\begin{bmatrix}
+					0 \\
+					b \\
+				  \end{bmatrix}$
 
 \question{5}{Chapter-10: Question-6}
 Given 4 data points as below:
