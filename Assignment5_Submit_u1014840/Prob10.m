@@ -1,6 +1,3 @@
-
-
-
 function [] = q10
 
 % Data Set
@@ -21,7 +18,19 @@ y2 = ppval(p2,x);
 y3 = p3(x);
 y4 = p4(x);
 y5 = p5(x);
+axis([0,10,-50,50])
+xlim([0 1.1])
 plot(x,y1,x,y2,x,y3,x,y4,x,y5);
+
+
+xlabel('x');
+ylabel('y');
+hold on;
+legend('polyfit','spline','custom 0.1','custom 0.01','custom 0.001');
+
+line([0.05,0.05],[-5,15]); hold on;
+line([0.01,0.01],[-5,15]); hold on;
+line([0.8,0.8],[-5,15]);
 
 end
 
