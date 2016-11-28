@@ -187,6 +187,99 @@ J = $\begin{bmatrix}
 
 
 
+\question{5}{Chapter-10: Question-6}
+Given 4 data points as below:
+\[(x_0,y_0) = (-1,1)\]
+\[(x_1,y_1) = (0,1)\]
+\[(x_2,y_2) = (1,2)\]
+\[(x_3,y_3) = (2,0)\]
+
+\part{Monomial Basis} 
+\[ p(x) = \sum_{j=0}^3 c_jx^j\]
+where $c_j$ are the coefficients of the j'th basis. \newline
+
+At $(x_0, y_0)$, 
+\[p(x_0) = p(-1) = c_0 - c_1 + c_2 - c_3 = y_0 = 1\]
+
+At $(x_1, y_1)$,
+\[p(x_1) = p(0) = c_0 = y_1 = 1\]
+
+At $(x_2, y_2)$,
+\[ p(x_2) = p(1) = c_0 + c_1 + c_2 + c_3 = 2 \]
+
+At $(x_3, y_3)$,
+\[ p(x_3) = p(2) = c_0 + 2c_1 + 4c_2 + 8c_3 = 0\]
+
+Combining these above 4 equations, we get the following system of equations: \newline
+$\begin{bmatrix} 
+	1 & -1 & 1 & -1 \\
+	1 & 0 & 0 & 0 \\
+	1 & 1 & 1 & 1 \\
+	1 & 2 & 4 & 8 \\
+\end{bmatrix}$ $\begin{bmatrix}
+			c_0 \\
+			c_1 \\
+			c_2 \\
+			c_3 \\
+\end{bmatrix}$ = $\begin{bmatrix}
+			1 \\
+			1 \\
+			2 \\
+			0 \\
+		  \end{bmatrix}$
+
+Solving this system of equation, we get the following coefficients values for monomial basis: \newline
+\hspace*{0.5cm} $c_0 = 1$, $c_1 = 1.16667$, $c_2 = 0.5$, $c_3 = -0.6667$ \newline
+Thus the interpolating cubic polynomial using monomial basis will be:
+\begin{equation}
+	p(x) = 1 + 1.6667 x + 0.5x^2 - 0.6667 x^3
+ \label{eq:mono}
+\end{equation}
+
+\part{Lagrange}
+
+In the Lagrange, the j'th basis function is defined as:
+\[ L_j(x) = \dfrac{(x-x_0) \dots (x - x_{j-1})(x - x_{j+1}) \dots (x - x_n)}{(x_j-x_0) \dots (x_j - x_{j-1})(x_j - x_{j+1}) \dots (x_j - x_n)}\]
+
+and the polynomial is defined as: \newline
+$p(x) = \sum_{j=0}^n y_j L_j(x) = 1\dfrac{(x-0)(x-1)(x-2)}{(-1-0)(-1-1)(-1-2)} + 1\dfrac{(x+1)(x-1)(x-2)}{(0+1)(0-1)(0-2)} + 2 \dfrac{(x+1)(x-0)(x-2)}{(1+1)(1-0)(1-2)} + 0.L_3(x) = \dfrac{-4x^3 + 3x^2 + 7x + 6}{6}$
+
+
+Hence, we get the following coefficient values for the Lagrange's basis: \newline
+\hspace*{0.5cm} $c_0 = 1$, $c_1 = 1.16667$, $c_2 = 0.5$, $c_3 = -0.6667$ \newline
+Hence, the interpolating cubic polynomial with Lagrange basis will be , \newline
+\begin{equation}
+1 + 1.16667 x + 0.5 x^2 - 0.667x^3
+	\label{eq:lagrange}
+\end{equation}
+
+
+\part{Newton} For a cubic interpolant, the basis functions will be: \newline
+$\phi_0(x) = 1$, $\phi_1(x) = x - x_0 = x+1$ , $\phi_2(x) = (x-x_0)(x-x_1) = (x-x_0)x$, and $\phi_3(x) = (x-x_0)(x-x_1)(x-x_2) = (x+1)x(x-1) = (x^3 - x)$ \newline
+
+	At $(x_0,y_0)$ \newline
+	$p(-1)$ = $c_0$ = 1 \newline
+
+	At $(x_1, y_1)$ \newline
+	$p(0)$ = 1 + $c_1(x-x_0)$ = $y_1 => c_1 = 0$ \newline
+
+	At $(x_2, y_2)$ \newline
+	$p(1) = 1 + 0 + c_2(x-x_0)(x-x_1)$ = $y_2 => 1 + c_2(1+1)(1-0) = 2 => c_2 = \dfrac{1}{2}$  \newline
+
+	At $(x_3, y_3)$ \newline
+	$P(2) = 1 + 0 + c_2(2+1)(2-0) + c_3(2+1)(2-0)(2-1) = 0, => c_3 = \dfrac{-2}{3}$ \newline
+
+	Hence, reconstructing the polynomial:
+	\[p(x) = 1 + 0 + \dfrac{1}{2}x(1+x) - \dfrac{2}{3}(x+1)x(x-1)\]
+	\[p(x) = 1 + \dfrac{7}{6}x + \dfrac{x^2}{2} - \dfrac{2}{3}x^3 \]
+	\[p(x) = 1 + 1.1667 x + 0.5 x^2 - 0.667 x^3\]
+Hence, the interpolating cubic polynomial with Lagrange basis will be , \newline
+\begin{equation}
+1 + 1.16667 x + 0.5 x^2 - 0.667x^3 
+	\label{eq:nbasis}
+\end{equation}
+
+	As $\eqref{eq:mono}$, $\eqref{eq:lagrange}$ and $\eqref{eq:nbasis}$ shows that the three representations gives the same polynomial. \newline
 
 
 \question{7}{Chapter-10: Question-25}
