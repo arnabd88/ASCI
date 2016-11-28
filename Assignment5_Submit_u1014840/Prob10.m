@@ -55,20 +55,18 @@ title(['Custom: epsilon = 0.001']), xlabel('x'), ylabel('y');
 
 end
 
-function [p] = interpolant(e,X,Y)
+function [p] = interpolant(epsilon,X,Y)
 
   A = ones(8,8);
- % X = [0.10, 0.15, 0.20, 0.30, 0.35, 0.50, 0.75];
- % Y = [3.00, 2.00, 1.20, 2.10, 2.00, 2.50, 2.50];
   
   phi0 = @(x) 1 ;
-  phi1 = @(x) sqrt((x - X(1)).^2 + e^2) - e ;
-  phi2 = @(x) sqrt((x - X(2)).^2 + e^2) - e ;
-  phi3 = @(x) sqrt((x - X(3)).^2 + e^2) - e ;
-  phi4 = @(x) sqrt((x - X(4)).^2 + e^2) - e ;
-  phi5 = @(x) sqrt((x - X(5)).^2 + e^2) - e ;
-  phi6 = @(x) sqrt((x - X(6)).^2 + e^2) - e ;
-  phi7 = @(x) sqrt((x - X(7)).^2 + e^2) - e ;
+  phi1 = @(x) sqrt((x - X(1)).^2 + epsilon^2) - epsilon ;
+  phi2 = @(x) sqrt((x - X(2)).^2 + epsilon^2) - epsilon ;
+  phi3 = @(x) sqrt((x - X(3)).^2 + epsilon^2) - epsilon ;
+  phi4 = @(x) sqrt((x - X(4)).^2 + epsilon^2) - epsilon ;
+  phi5 = @(x) sqrt((x - X(5)).^2 + epsilon^2) - epsilon ;
+  phi6 = @(x) sqrt((x - X(6)).^2 + epsilon^2) - epsilon ;
+  phi7 = @(x) sqrt((x - X(7)).^2 + epsilon^2) - epsilon ;
   
   for i = 2:8
     A(i,2) = phi1(X(i-1));
@@ -80,8 +78,9 @@ function [p] = interpolant(e,X,Y)
     A(i,8) = phi7(X(i-1));
   end
   
-  y = [0,Y]'; 
-  C = A\y;
-  p = @(x) C(1)*phi0(x) + C(2)*phi1(x) + C(3)*phi2(x) + C(4)*phi3(x) + C(5)*phi4(x) + C(6)*phi5(x) + C(7)*phi6(x) + C(8)*phi7(x); 
+%  y = [0,Y]'; 
+%  C = A\y;
+  Coeff = A\[0,Y]';
+  p = @(x) Coeff(1)*phi0(x) + Coeff(2)*phi1(x) + Coeff(3)*phi2(x) + Coeff(4)*phi3(x) + Coeff(5)*phi4(x) + Coeff(6)*phi5(x) + Coeff(7)*phi6(x) + Coeff(8)*phi7(x); 
 
 end
