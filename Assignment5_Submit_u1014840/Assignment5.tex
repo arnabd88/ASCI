@@ -334,6 +334,14 @@ Hence, the interpolating cubic polynomial with Lagrange basis will be , \newline
 	As $\eqref{eq:mono}$, $\eqref{eq:lagrange}$ and $\eqref{eq:nbasis}$ shows that the three representations gives the same polynomial. \newline
 
 
+\question{6}{Chapter-10: Question-10}
+Given 137 uniformly spaced data points, with finite number of discontinuities in certain intervals. To construct the best fit cubic over an interval, say $[x_{i-1},x_{i}]$, we can construct three possible cubics as follows: \newline
+one cubic comprising of interpolating points $x_{i-3},x_{i-2},x_{i-1}, x_i$ \newline
+another cubic comprising of interpolating points $x_{i-2}, x_{i-1}, x_i, x_{i+1}$ \newline
+another one comprising of interpolating points $x_{i-1}, x_i, x_{i+1}, x_{i+2}$ \newline
+
+The interval that contains a discontinuity will cause a lift in the slope of the interpolant because there curve after the discontinuity will be stepped up or down sharply. Thus, of all the 3 polynomials, the polynomial containing the discontinuous interval will be least smooth. To ignore such polynomials, we can choose the best fit as the cubic polynomial will the least slope or most smoothness out of these 3 polynomials pertaining to the interval $[x_{i-1},x_i]$. \newline
+
 \question{7}{Chapter-10: Question-25}
 
 \part{a} Let the quadratic polynomial be 
