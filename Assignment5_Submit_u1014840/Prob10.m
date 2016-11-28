@@ -13,6 +13,7 @@ van = vander(PX);
 [t3] = interpolant(0.1,PX,PY);
 [t4] = interpolant(0.01,PX,PY);
 [t5] = interpolant(0.001,PX,PY);
+[t6] = interpolant(0,PX,PY);
 
 % Plot 
 x = [0.05: 0.01: 0.8];
@@ -21,6 +22,7 @@ y2 = ppval(t2,x);
 y3 = t3(x);
 y4 = t4(x);
 y5 = t5(x);
+y6 = t6(x);
 %axis([0,10,-50,50])
 %xlim([0 1.1])
 %% plot(x,y1,x,y2,x,y3,x,y4,x,y5);
@@ -48,6 +50,9 @@ title(['Custom: epsilon = 0.01']), xlabel('x'), ylabel('y');
 subplot(3,2,5);
 plot(x,y5);
 title(['Custom: epsilon = 0.001']), xlabel('x'), ylabel('y');
+subplot(3,2,6);
+plot(x,y6);
+title(['Custom: epsilon = 0']), xlabel('x'), ylabel('y');
 
 %line([0.05,0.05],[-5,15]); hold on;
 %line([0.01,0.01],[-5,15]); hold on;
