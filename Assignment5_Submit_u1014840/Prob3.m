@@ -38,7 +38,9 @@ iter_k    = 0;
 xk1 = x0
 delta    = 1
 
-% Start Newtons Method
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Newton's Method Impl
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 while delta > epsilon
     xk   = xk1;
     
@@ -72,8 +74,10 @@ alphamax = 1;
 alphamin = 2^-10;
 sigma = 1e-4;
 
-% Start BFGS
-while delta > epsilon && iter_k < 100
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BFGS Impl
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+while delta > epsilon
     
     xk = xk1;
     
