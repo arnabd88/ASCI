@@ -185,6 +185,17 @@ J = $\begin{bmatrix}
  If the Jacobian is singular at the solution, then theoretically it means $\Delta x_k = x_{k+1} - x_k$, will be potentially large in the region close to the solution which means the values of x at the k'th and (k+1)'th iterate will have a large difference implying that convergence will be extremely slow and even the convergence might be lost, since two consecutive iterations will not result in close 'x' values that can meet the convergence limits. Also, since J is singular, hence the condition numner given by $||J||||J^{-1}||$ will be infinitely large indicating an ill-conditioned system, which will not potentially converge. \newline
 
 
+\question{3}{Chapter-9: Question-13}
+To minimize the function:
+\[ \phi(x) = c^T + \dfrac{1}{2}x^THx \]
+where, c, H and initial $x_0$ is provided. \newline
+
+Both Newton and BFGS are implemented in the file, Prob3.m. The convergence criteria considered is $||x_{k+1} - x_k|| < 1e^{-10}$. The Newton's method converges in 2 iterations to the solution $x = [1.000, 0.000, -1.000, 2.000]$. BFGS converges in 20 iterations to the solution $x = [1.000, 0.000, -1.000, 2.000]$ . For choosing $\alpha$ in the BFGS method we have implemented the algorithm combining backtracking and weak-line search.
+
+The general converegnce expression for any method is given as:
+\[ \lim_{n->\infty} \dfrac{|x_{n+1} - x^*|}{|x_n - x^*|^\alpha} = \lambda \]
+where, $\lambda$ is the asymptotic error constant and $\alpha$ denotes the rate of convergence. For Newtons's method, if the initial guess is relatively close enough to the solution, then the convergence is quadratic, that is, $\alpha=2$. For BFGS, the convergence is superlinear, that is, $1 < \alpha < 2$. Thus, BFGS is slower to converge than the quadratic convergence of Newton's method, which explains why BFGS takes larger number of iterations . \newline
+
 
 
 \question{5}{Chapter-10: Question-6}
