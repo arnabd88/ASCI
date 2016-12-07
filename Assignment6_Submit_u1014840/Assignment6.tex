@@ -39,6 +39,44 @@
   \newcommand\UID{uxxxxxxx}
   \newcommand\HWNUM{4}
 
+  \question{Question-2}{Chapter-14, question-2}
+  Let f(x) be a given function that can be evaluated at points $x_o \pm jh, j=0,1,2,\dots$ for any fixed value of h, $0 < h << 1$. \newline
+  \part{a} Using Taylor series expansion about $x_0$, we can write the following expansions about $\pm h$:
+  \[ f(x_0 + h) = f(x_0) + hf^\prime(x_0) + \dfrac{h^2}{2}f^{\prime\prime}(x_0) + \dfrac{h^3}{6}f^{\prime\prime\prime}(x_0) + \dfrac{h^4}{24}f^{\prime\prime\prime\prime}(x_0) + \dfrac{h^5}{120}f^{\prime\prime\prime\prime\prime}(\zeta_1) \]
+  \[ f(x_0 - h) = f(x_0) - hf^\prime(x_0) + \dfrac{h^2}{2}f^{\prime\prime}(x_0) - \dfrac{h^3}{6}f^{\prime\prime\prime}(x_0) + \dfrac{h^4}{24}f^{\prime\prime\prime\prime}(x_0) - \dfrac{h^5}{120}f^{\prime\prime\prime\prime\prime}(\zeta_2) \]
+  where, $x_0 \leq \zeta_1 \leq x_0 + h$, and $x_0 - h \leq \zeta_2 \leq x_0$
+  The difference of the above two equations gives the following:
+  \begin{equation}
+  f(x_0+h) - f(x_0-h) = 2\{ hf^\prime(x_0) + \dfrac{h^3}{6}f^{\prime\prime\prime}(x_0) + \dfrac{h^5}{120}f^{\prime\prime\prime\prime\prime}(\zeta_3) \}
+  \label{eq:1ptdiff}
+  \end{equation}
+  where, $x_0 - h \leq \zeta_3 \leq x_0 + h$
+
+  Similarly, we can get the following expansions using nearby points at $x_0 \pm 2h$:
+  \[ f(x_0 + 2h) = f(x_0) + 2hf^\prime(x_0) + \dfrac{4h^2}{2}f^{\prime\prime}(x_0) + \dfrac{8h^3}{6}f^{\prime\prime\prime}(x_0) + \dfrac{16h^4}{24}f^{\prime\prime\prime\prime}(x_0) + \dfrac{32h^5}{120}f^{\prime\prime\prime\prime\prime}(\zeta_4) \]
+  \[ f(x_0 - 2h) = f(x_0) - 2hf^\prime(x_0) + \dfrac{4h^2}{2}f^{\prime\prime}(x_0) - \dfrac{8h^3}{6}f^{\prime\prime\prime}(x_0) + \dfrac{16h^4}{24}f^{\prime\prime\prime\prime}(x_0) - \dfrac{32h^5}{120}f^{\prime\prime\prime\prime\prime}(\zeta_5) \]
+  where, $x_0 \leq \zeta_4 \leq x_0 + 2h$, and $x_0 - 2h \leq \zeta_5 \leq x_0$
+  The difference of the above two equations gives the following:
+  \begin{equation}
+  f(x_0+2h) - f(x_0-2h) = 2\{ 2hf^\prime(x_0) + \dfrac{8h^3}{6}f^{\prime\prime\prime}(x_0) + \dfrac{32h^5}{120}f^{\prime\prime\prime\prime\prime}(\zeta_6) \}
+  \label{eq:2ptdiff}
+  \end{equation}
+  where, $x_0 - 2h \leq \zeta_6 \leq x_0 + 2h$
+
+  Then multiplying $\eqref{eq:1ptdiff}$ by 2 and subtracting it from $\eqref{eq:2ptdiff}$, we get:
+  \[ f(x_0 + 2h) - f(x_0 - 2h) - 2f(x_0 + h) + 2f(x_0-h) = 2h^3f^{\prime\prime\prime}(x_0) + \dfrac{h^5}{2}f^{\prime\prime\prime\prime\prime}(\zeta) \]
+  where, $z_0 - 2h \leq \zeta \leq x_0 + 2h$
+  Rearranging the terms, we get:
+  \begin{equation}
+	  f^{\prime\prime\prime}(x_0) = \dfrac{f(x_0 + 2h) - f(x_0 - 2h) - 2f(x_0 + h) + 2f(x_0-h)}{h^3} + \mathbf{\dfrac{-h^2}{4}f^{\prime\prime}(\zeta)}
+	  \label{eq:3deriv}
+  \end{equation}
+
+  $\eqref{eq:3deriv}$ provides the formula for approximating the third derivative $f^{\prime\prime\prime}(x_0)$, with the bold test showing the component of the truncation error:
+  Thus, truncation error = $\mathbf{\dfrac{-h^2}{4}f^{\prime\prime}(\zeta)}$
+
+  
+
   \question{Question-6}{Chapter-15, question-4}
   \part{a} \textbf {Prove:} Error in basic corrected trapezoidal rule in the interval [a,b] can be estimated by:
   \[E(f) = \dfrac{f^{\prime\prime\prime\prime}*(\eta)}{720} (b-a)^5\]
