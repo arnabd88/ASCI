@@ -1,0 +1,126 @@
+\documentclass{article}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{longtable}
+\newcommand{\bx}{{\bf x}}
+\newcommand{\bw}{{\bf w}}
+\newcommand{\bb}{{\bf b}}
+\newcommand{\bv}{{\bf v}}
+\newcommand{\by}{{\bf y}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt plus 1pt}
+\setlength{\headheight}{13.6pt}
+\newcommand\question[2]{\vspace{.25in}\hrule\textbf{#1: #2}\hrule\vspace{.10in}}
+\renewcommand\part[1]{\vspace{.10in}\textbf{(#1)}}
+\newcommand\algo{\vspace{.10in}\textbf{Algorithm: }}
+\newcommand\correctness{\vspace{.10in}\textbf{Correctness: }}
+\newcommand\runtime{\vspace{.10in}\textbf{Running time: }}
+\newcommand\pseudoCode{\vspace{.10in}\textbf{PseudoCode: }}
+\newcommand*{\perm}[2]{{}^{#1}\!P_{#2}}
+\newcommand*{\comb}[2]{{}^{#1}\!C_{#2}}
+%\pagestyle{fancyplain}
+%\lhead{\textbf{\NAME\ (\UID)}}
+%\chead{\textbf{Hw\HWNUM}}
+%\rhead{CS 6350, \today}
+\title{CS6210 - Homework/Assignment-6}
+\author{Arnab Das(u1014840)}
+\usepackage[utf8]{inputenc}
+\begin{document}
+  \pagenumbering{gobble}
+  \maketitle
+  \newpage
+  \pagenumbering{arabic}
+  \newcommand\NAME{ARNAB DAS}
+  \newcommand\UID{uxxxxxxx}
+  \newcommand\HWNUM{4}
+
+  \question{Question-6}{Chapter-15, question-4}
+  \part{a} \textbf {Prove:} Error in basic corrected trapezoidal rule in the interval [a,b] can be estimated by:
+  \[E(f) = \dfrac{f^{\prime\prime\prime\prime}*(\eta)}{720} (b-a)^5\]
+  \textbf {Proof:} The osculating polynomial formula for the basic corrected trapezoidal rule is written as:
+  \[p_3(x) = f(a) + f^\prime(a)(x-a) + f[a,a,b](x-a)^2 + f[a,a,b,b](x-a)^2(x-b)\]
+
+  The error in the polynomial interpolation in that case will be fiven by:
+  \[f[a,a,b,b,x](x-a)(x-a)(x-b)(x-b)\]
+
+  Then, to find the error in the intergral of the polynomial, we can integrate the error of polynomial described above, in the interval [a,b]
+  \[E(f) = \int_{a}^{b} f[a,a,b,b,x]\psi(x)\]
+  where $\psi(x) = \prod_{i=0}{i=3}(x - x_i) = (x-a)(x-a)(x-b)(x-b)$ \newline
+  Notice that, since $x$ lies in the interval [a,b], hence $(x-a \geq 0) and (x-b \leq 0)$. In any case, the square of the terms will be greater than equal to 0. So, in the given interval $\psi(x) \geq 0$ always. Because $\psi(x)$ does not changes sign in the interval, then using the intermediate value theorem, there exists $a \leq \eta \leq b$, such that:
+  \[E(f) = \int_{a}^{b} f[a,a,b,b,x]\psi(x) = \int_{a}^{b} f[a,a,b,b,\eta]\psi(x)\]
+  where,
+  \[f[a,a,b,b,\eta] = \dfrac{f^{\prime\prime\prime\prime}(\eta)}{4!}\]
+  which is a constant, say $K$. \newline
+  Then we can write the error integral as:
+  \[E(f) = K \int_{a}^{b} (x-a)^2(x-b)^2 \]
+  Doing integration by parts:
+  \[E(f) = K\bigg [ \dfrac{(x-a)^2(x-b)^3}{3} - \dfrac{(x-a)(x-b)^4}{6} + \dfrac{(x - b)^5}{30}    \bigg ]_{a}^{b} = \dfrac{-(a-b)^5}{30}\]
+  Replacijng back K,we get:
+  \[E(f) = \dfrac{f^{\prime\prime\prime\prime}(\eta)}{4!}\dfrac{(-(a-b)^5)}{30} = \dfrac{f^{\prime\prime\prime\prime}(\eta)(b-a)^5}{720} \]
+
+  \part{b} The integral for the corrected trapezoidal is written is:
+  \[ I_f \approx \int_{a}^{b} p_3(x)dx = \dfrac{(b-a)}{2}[f(a) + f(b)] + \dfrac{(b-a)^2}{12}[f^\prime(a) - f^\prime(b)] \]
+
+  \textbf {part-1:}For the integral $\int_{0}^{1}e^x dx$, thus $a=0,b=1$, and $f(x) = e^x$, $f^\prime(x) = e^x$ .So, $f(a)=1,f(b)=e,f^\prime(a)=1, f^\prime(b)=e$ \newline
+  Using the basic corrected trapezoidal, we get:
+  \[\int_{0}^{1}e^x dx = 1.71595\]
+  the acutal evaluation is $1.7183\dots$ while the basic trapezoidal evaluation from Example-15.2 is $1.7183\dots$. Hence, the evaluation using the basic corrected trapezoidal is more accurate than the basic trapezoidal. \newline
+
+  \textbf {part-2:} For the integral $\int_{0.9}^{1}e^x dx$, thus $a=0.9,b=1$, and $f(x) = e^x$, $f^\prime(x) = e^x$ .So, $f(a)=e^{0.9},f(b)=e,f^\prime(a)=e^{0.9}, f^\prime(b)=e$ \newline
+  Using the basic corrected trapezoidal, we get:
+  \[\int_{0.9}^{1}e^x dx = 0.258678\]
+  The actual evaluation is $0.2586787171\dots$, while the basic trapezoidal evaluation from Example-15.2 is $0.258894\dots$. hence, the evaluation using the basic corrected trapezoidal is more accurate than the basic trapezoidal. \newline
+
+  \question{Question-7}{Chapter-15, question-5}
+  \part{a} In the interval [a,b], the basic midpoint rule is given as :
+  \begin{equation}
+	  I_f \approx (b-a)f(\dfrac{(a+b)}{2})
+	  \label{eq:bmid}
+  \end{equation}
+  For the composite midpoint rule, we consider $r$ subintervals in the original interval [a,b] and apply the basic midpoint rule to each subinterval and then sum over all the subintervals to get the composite integral. The rule applied to an interval $[t_{i-1},t_i]$ , such that the interval widths are uniform and $t_i - t_{i-1} = h = \dfrac{b-a}{r}$, will be:
+  \[ \int_{t_{i-1}}^{t_i} f(x) dx \approx hf(\dfrac{t_{i-1} + t_i}{2})\]
+  Summing over all the subintervals to get the complete composite integral:
+  \[ \int_{a}^{b} f(x)dx = h \sum_{i=1}^r f(\dfrac{t_{i-1} + t_i}{2}) \]
+
+  For, r equispaced intervals over [a,b], we have the interval width as $h = \dfrac{b-a}{r}$
+  Then, $t_0 = a, t_1 = a+h, t_2 = a+2h, \dots, t_i = a+ih$.So,
+  \[\dfrac{t_{i-1} + t_i}{2} = \dfrac{a + (i-1)h + a+ih}{2} = a + (i - \dfrac{1}{2})h\]
+  Replacing it in the orginal integral, we get the final form for the composite midpoint as:
+  \[\int_{a}^{b} f(x)dx \approx h \sum_{i=1}^r  f(a + (i - \dfrac{1}{2})h)\]
+
+  From the above expression , we can see that there is one function evaluation per subinterval. Hence , the number of function evaluations is $r = \dfrac{b-a}{h}$ \newline
+
+  \part{b} Wait for Sourabh's response
+
+  \question{Question-8}{Chapter-15, question-13}
+  Given that the interval of integration, [a,b], is divided into equal sub-intervals of length h, such that $r = \dfrac{b-a}{h}$
+  \textbf {Composite Simpson:}\newline
+  \begin{equation}
+	  \int_{a}^{b} f(x) dx \approx \dfrac{h}{3}\bigg [ f(a) + 2\sum_{k=1}^{\dfrac{r}{2}-1} f(t_{2k}) + 4\sum_{k=1}^{\dfrac{r}{2}}f(t_{2k-1}) + f(b)\bigg ]
+	  \label{eq:compSim}
+  \end{equation}
+  The expression for composite trapezoidal with step size $h$ is given by: \newline
+  \textbf {R1: Composite trapezoidal rule of step size h}
+  \[ \int_{a}^{b} \approx \dfrac{h}{2} \sum_{i=1}^{r} f(t_{i-1}) + f(t_i)\]
+  \[R_2 = \dfrac{h}{2}[ f(a) + 2f(t_1) + 2f(t_2) + \dots + 2f(t_{r-1}) + f(b) ]\]
+  \textbf {R2: Composite trapezoidal rule of step size 2h}
+  For step-size of 2h, we reuqire even number of subintervals. In the above expression for summation,thus we change the summing variable $i$ to $2k$, and the limit become $\dfrac{r}{2}$ . Hence, we have:
+  \[R_2 = \dfrac{2h}{2}\sum_{k=1}^{\dfrac{r}{2}} f(t_{2k-2}) + f(t_{2k})\]
+  \[R_2 = h[ \{f(t_0) + f(t_2) + \dots + f(t_{r-2})\} + \{ f(t_2) + f(t_4) + \dots + f(t_r) \} ]\]
+  Since, $t_0$ and $t_r$ are the two extreme end points of the interval, hence $t_0 = a$ and $t_r = b$
+  Thus, we get:
+  \[R_2 = h[f(a) + 2f(t_2) + 2f(t_4) + \dots + 2f(t_{r-2}) + f(b)]\]
+
+  Hence, evaluating $S = \dfrac{4R_2 - R_1}{3}$
+  \[4R_2 - R_1\ = h[2f(a) + 4f(t_1) + 4f(t_2)+\dots+4f(t_{r-1}) + 2f(b)] - h[f(a) - 2f(t_2) - 2f(t_4) - \dots-f(b)]\]
+  \[4R_2 - R_1 = h[ f(a) + \{2f(t_2) + 2f(t_4) +\dots+2f(t_{r-2})\} + \{ 4f(t_1)+4f(t_3) + \dots+4f(t_{r-1})\} + f(b) ]\]
+  \[4R_2 - R_1 = h[ f(a) + 2\sum_{k=1}^{\dfrac{r}{2}-1}f(t_{2k}) + 4\sum_{k=1}^{\dfrac{r}{2}}f(t_{2k-1}) + f(b)]\]
+  \[\dfrac{4R_2 - R_1}{3} = \dfrac{h}{3}[ f(a) + 2\sum_{k=1}^{\dfrac{r}{2}-1}f(t_{2k}) + 4\sum_{k=1}^{\dfrac{r}{2}}f(t_{2k-1}) + f(b)]\]
+  The rhs of the above is exactly the expression for the composite Simson's rule $\eqref{eq:compSim}$
+\end{document}
+
