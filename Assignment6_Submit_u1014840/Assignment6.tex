@@ -95,7 +95,30 @@
 
   From the above expression , we can see that there is one function evaluation per subinterval. Hence , the number of function evaluations is $r = \dfrac{b-a}{h}$ \newline
 
-  \part{b} Wait for Sourabh's response
+  \part{b} \textbf {Derive an expression for the error in composite midpoint rule} \newline
+  For the basic midpoint rule, the error expression in the interval [a,b] is given by:
+  \[E(f) = \dfrac{f^{\prime\prime}(\eta)}{24}(b-a)^3\]
+  This comes from doing the following integral:
+  \[\dfrac{f^{\prime\prime}}{2!}(\eta)\int_{a}^{b}(x - \dfrac{a+b}{2})(x - \dfrac{a+b}{2})) \]
+  The reason for adding the second term of $(x - \dfrac{a+b}{2})$ even though there is only a single point, is that $(x - \dfrac{a+b}{2})$ can change signs within the interval [a,b], and hence we cannot apply the indermediate value theorem to take out $f^{\prime\prime}(\eta)$ as a constant, for $a \leq \eta \leq b$. So, we duplicate the point $\dfrac{a+b}{2}$ as a dummy interpolation point, since it does not changes the area evaluated and hence the error term should remain the same. \newline
+
+  Next, we come to the derivation of the error for the composite midpoint rule. In the composite cases, we have divided the original interval, [a,b], into $r$ equispaced sub-intervals of width $h$, such that $r = \dfrac{b-a}{h}$. For evaluating the composite integral using mid-point we applied the basic midpoint to each of these sub-intervals and summed them. Similarly, now each evaluation of the basic midpoint in these intervals will result in an error , which we can further sum up to get the expression for the error in composite mid-point. The error term in the interval $[t_{i-1},t_i]$ will be $\dfrac{f^{\prime\prime}(\eta_i)}{24}h^3$, where $\dfrac{f^{\prime\prime}(\eta_i)}{24}$ is a contstant in the interval $[t_{i-1},t_i]$
+  
+
+  Hence, the expression of error for the composite midpoint will be:
+  \[E_{CM}(f) = \sum_{i=1}^r \dfrac{f^{\prime\prime}(\eta_i)}{24}h^3\]
+
+  Since, $f^{\prime\prime}(\eta_i)$ is a constant in the interval $[t_{i-1},t_i]$, we can generalize it with an appropriate constant $f^{\prime\prime}(\eta)$ where $a \leq \eta \leq b$. Then the error expression comes to be:
+  \[ E_{CM}(f) = \dfrac{f^{\prime\prime}(\eta)}{24} \sim_{i=1}^{r} h.h^2\]
+  \[ E_{CM}(f) = \dfrac{f^{\prime\prime}(\eta)}{24} h^2.rh\]
+  Since, $h = \dfrac{b-a}{r}$, so replacing $(b-a) = rh$, we get:
+  \begin{equation}
+   E_{CM}(f) = \dfrac{f^{\prime\prime}(\eta)}{24}(b-a)h^2
+   \label{eq:ErrorCM}
+  \end{equation}
+  This is the final expression for the error in the composite mid point rule. \newline
+  $\eqref{eq:ErrorCM}$ Suggests that the error varies proportional to $h^2$, hence it is second order accurate. 
+
 
   \question{Question-8}{Chapter-15, question-13}
   Given that the interval of integration, [a,b], is divided into equal sub-intervals of length h, such that $r = \dfrac{b-a}{h}$
