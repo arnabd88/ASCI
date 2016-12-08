@@ -118,6 +118,45 @@
 
   \part{c} Will be back soon
 
+  \question{Question-4}{Chapter-14, question-13}
+  Will be back soon
+
+  \question{Question-5}{Chapter-14, question-15}
+  Consider the numerical differentiation of the function, $f(x) = c(x)e^{x/\pi}$, defined on $[0,\pi]$, where
+  \[c(x) = j; \dfrac{\pi}{4}(j-1) \leq x < \dfrac{\pi}{4}j\]
+  for $j=1,2,3,4,\dots$
+  \part{a} We want a difference approximation with step size, $h = \dfrac{n}{\pi}$. Suppose, we have n as multiple of 4, that is, $n=4l$, where $l$ is an integer. Since, the points are equispaced, thus the entire $[0,\pi]$ region can be seen as partioned into 4 regions each having $l$ points as described below: \newline
+  $\mathbf {L1:} 0 \leq x < \pi/4$ : $l$ points at $0, \dfrac{\pi}{4l}, \dfrac{2\pi}{4l}, \dots, \dfrac{(l-1)\pi}{4l}$ \newline
+  $\mathbf {L2:} \pi/4 \leq x < \pi/2$ : $l$ points at $\dfrac{\pi}{4}, \dfrac{\pi}{4} + \dfrac{\pi}{4l},\dfrac{\pi}{4} + \dfrac{2\pi}{4l}, \dots, \dfrac{\pi}{4} + \dfrac{(l-1)\pi}{4l}$ \newline
+  $\mathbf {L3:} \pi/2 \leq x < 3\pi/4$ : $l$ points at $\dfrac{\pi}{2}, \dfrac{\pi}{2} + \dfrac{\pi}{4l},\dfrac{\pi}{2} + \dfrac{2\pi}{4l}, \dots, \dfrac{\pi}{2} + \dfrac{(l-1)\pi}{4l}$ \newline
+  $\mathbf {L4:} 3\pi/4 \leq x < \pi$ : $l$ points at $\dfrac{3\pi}{4}, \dfrac{3\pi}{4} + \dfrac{\pi}{4l},\dfrac{3\pi}{4} + \dfrac{2\pi}{4l}, \dots, \dfrac{3\pi}{4} + \dfrac{(l-1)\pi}{4l}$ \newline
+  The last point is at $\pi$ \newline
+  Now, $c(x)$ is discontinuous at the points of integer multiples of $\pi/4$. To make sure that the discontinuities do not affect out difference formulation it is beneficial to have some of the interval end points at these discontinuities. For example, if we want to approximate the difference value at a point $t$ in the interval $[x_{i-1}, x_i]$, there will be two possibilities while taking the difference. If $x_{i-1}$ and $x_{i}$ lie in the same region described above, then $c(x)$ has the same values at both the points and can be approximated with the value of $c(x_{i-1})$. If on the other hand, $x_{i-1}$ and $x_i$ lie in two different regions, the only possibility is the $x_{i-1}$ is the last point in one region while $x_i$ is the first point of the other region and hence we have a discontinuity at $x_i$ , however, $t$ will be in the region of $x_{i-1}$ and hence to avoid the discontinuity in the calculation, we can take the left continuous value at $x_i$, which will be equal to the value at $t_i$. Hence, with n being multiple of 4, we have the possibility of avoiding the discontinuities resulting in better values. Consider on the other hand, if n was not a multiple of 4, that is, we did not had this nice region partition, then the point $t$ could itself have a discontinuity which we could not be able to derive from the sampling points $[x_{i-1},x_i]$. Moreoever, suppose we have $t$ in $[x_{i-1},x_i]$, where $c(x_{i-1}) \neq c(x)$, and t lies not at the point of discontinuity, but either in the step with $x_{i-1}$ or with $x_i$. All these points lying on either side of the step, will get the same difference value which will be highly inaccurate. These issues we can solve by having n has multiple of 4, and having the nice partitioning described above . \newline
+
+  \part{b}\textbf {Show that:} $h^{-1}c(t_i)(e^{x_{i+1}/\pi} - e^{x_i/\pi})$ provides a second order approximation of $f^\prime(t_i)$ \newline
+  \textbf{Proof:} $t_i = x_i + \dfrac{h}{2} = ih + \dfrac{h}{2} = (i + \dfrac{1}{2})h$; $i=0,1,\dots,(n-1)$ \newline
+  Using Taylor series expansion around the point $t_i = x_i + \dfrac{h}{2}$, we can write:'
+  \[f(x_i + \dfrac{h}{2} - \dfrac{h}{2}) = f(x_i + \dfrac{h}{2}) - \dfrac{h}{2}f^\prime(x_i + \dfrac{h}{2}) + \dfrac{h^2}{4}f^{\prime\prime}(x_i + \dfrac{h}{2}) - \dfrac{h^3}{8}f^{\prime\prime\prime}(\zeta_1)\]
+  and, 
+  \[f(x_i + \dfrac{h}{2} + \dfrac{h}{2}) = f(x_i + \dfrac{h}{2}) + \dfrac{h}{2}f^\prime(x_i + \dfrac{h}{2}) + \dfrac{h^2}{4}f^{\prime\prime}(x_i + \dfrac{h}{2}) + \dfrac{h^3}{8}f^{\prime\prime\prime}(\zeta_2)\]
+  Subtracting $f(x_{i+1}=x_i+h) - f(x_{i})$ gives, 
+  \[ f(x_{i+1}) - f(x_i) = hf^\prime(x_i + \dfrac{h}{2}) + \dfrac{h^3}{8}\{ f^{\prime\prime\prime}(\zeta_1) + f^{\prime\prime\prime}(\zeta_2)\} \]
+  where $t_i - h/2 \leq \zeta_1 \leq t_i$ and $t_i \leq \zeta_2 \leq t_i + h/2$. Choosing a $\zeta$, such that, $t_i - h/2 \leq \zeta \leq t_i + h/2$, we can then write:
+  \[ f(x_{i+1}) - f(x_i) = hf^\prime(x_i + \dfrac{h}{2}) + \dfrac{h^3}{4}\{ f^{\prime\prime\prime}(\zeta)\} \]
+  Since, $t_i = x_i + h/2$,
+  \[ f(x_{i+1}) - f(x_i) = hf^\prime(t_i) + \dfrac{h^3}{4}\{ f^{\prime\prime\prime}(\zeta)\} \]
+  \[ f^\prime(t_i) = \dfrac{f(x_{i+1}) - f(x_i)}{h} - \dfrac{h^2}{4}f^{\prime\prime\prime}(\zeta)\]
+  \[ f^\prime(t_i) = \dfrac{c(x_{i+1})e^{x_{i+1}/\pi} - c(x_i)e^{x_i/\pi}}{h} - \dfrac{h^2}{4}f^{\prime\prime\prime}(\zeta)\]
+
+  As, described in first part of this question, if the end-points of the interval$[x_i,x_{i+1}]$, $t_i$ belongs to falls completely in one of the regions, then we have $c(x_i) = c(t_i) = c(x_{i+1})$. If $x_i$ and $x_{i+1}$ fall in different region, then $x_{i+1}$ falls in the point of discontinuity, so we take the left continuous value at $x_{i+1}$ which will be equal to $c(t_i) = c(x_i)$. Thus, in the above expression we can replace $c(x_i),c(x_{i+1})$ with $c(t_i)$. Thus we get the following expression:
+  \[ f^\prime(t_i) = \dfrac{c(t_i)e^{x_{i+1}/\pi} - c(t_i)e^{x_i/\pi}}{h} - \dfrac{h^2}{4}f^{\prime\prime\prime}(\zeta)\]
+  \begin{equation}
+   f^\prime(t_i) = \dfrac{c(t_i)(e^{x_{i+1}/\pi} - e^{x_i/\pi})}{h} - \mathbf{\dfrac{h^2}{4}f^{\prime\prime\prime}(\zeta)}
+   \label{eq:discont}
+  \end{equation}
+
+  $\eqref{eq:discont}$ shows the second order approximantion of $f^\prime(t_i)$
+
 
 
   
