@@ -12,9 +12,15 @@ for i=1:length(hList)
 	h1 = h ;
 	xneg1 = x0 - h0;
 	x1 = x0 + h1;
-	firstMethod(i) = ((func(x1) - func(x0))/h1 -(func(x1) - func(x0)) /h0)/((h0+h1)/2)
 
-	secondMethod(i) = 2*((func(x1) - func(x0))/(x1-x0) -(func(x1) - func(x0)) /(x0 - xneg1))/(x1 - xneg1) 
+    firstMethod(i) = (  ( func(x1) - func(x0 ) ) /h1 ...
+                      - ( func(x0) - func(xneg1) ) /h0  ) ...
+                      / (  (h0  + h1) /2) ;
+
+
+	%firstMethod(i) = ((func(x1) - func(x0))/h1 -(func(x1) - func(x0)) /h0)/((h0+h1)/2)
+
+	secondMethod(i) = 2*((func(x1) - func(x0))/(x1-x0) -(func(x0) - func(xneg1)) /(x0 - xneg1))/(x1 - xneg1) 
 	diff(i) = abs(firstMethod(i) - secondMethod(i)) ;
 	err(i) = 1 - abs(firstMethod(i)) ;
 end
