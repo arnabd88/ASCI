@@ -68,12 +68,57 @@
   where, $z_0 - 2h \leq \zeta \leq x_0 + 2h$
   Rearranging the terms, we get:
   \begin{equation}
-	  f^{\prime\prime\prime}(x_0) = \dfrac{f(x_0 + 2h) - f(x_0 - 2h) - 2f(x_0 + h) + 2f(x_0-h)}{h^3} + \mathbf{\dfrac{-h^2}{4}f^{\prime\prime}(\zeta)}
+	  f^{\prime\prime\prime}(x_0) = \dfrac{f(x_0 + 2h) - f(x_0 - 2h) - 2f(x_0 + h) + 2f(x_0-h)}{h^3} + \mathbf{\dfrac{-h^2}{4}f^{\prime\prime\prime\prime\prime}(\zeta)}
 	  \label{eq:3deriv}
   \end{equation}
 
   $\eqref{eq:3deriv}$ provides the formula for approximating the third derivative $f^{\prime\prime\prime}(x_0)$, with the bold test showing the component of the truncation error:
-  Thus, truncation error = $\mathbf{\dfrac{-h^2}{4}f^{\prime\prime}(\zeta)}$
+  Thus, truncation error = $\mathbf{\dfrac{-h^2}{4}f^{\prime\prime\prime\prime\prime}(\zeta)}$
+
+  \part{c} To derive the expression for the round-off error, we denote the floating point evaluations of $f$ by $F$. Thus the expression for round off error will be $|F^{\prime\prime\prime}(x_0) - f^{\prime\prime\prime}(x_0)|$ \[ = \bigg |  \dfrac{F(x_0 + 2h) - F(x_0 - 2h) - 2F(x_0 + h) + 2F(x_0-h)}{2h^3} - \dfrac{f(x_0 + 2h) - f(x_0 - 2h) - 2f(x_0 + h) + 2f(x_0-h)}{2h^3} \bigg |\]
+  \[= \bigg |  \dfrac{e_r(x_0+2h) - e_r(x_0-2h) -2e_r(x_0+h) + 2e_r(x_0-h)}{2h^3}  \bigg |\]
+  where, the round-off error term, $e_r(x) = F(x) - f(x)$
+  \[\leq \bigg | \dfrac{e_r(x_0 + 2h)}{2h^3}\bigg | + \bigg | \dfrac{e_r(x_0 - 2h)}{2h^3}\bigg | + \bigg | \dfrac{2e_r(x_0 + h)}{2h^3}\bigg | + \bigg | \dfrac{2e_r(x_0 - h)}{2h^3}\bigg |\]
+  Assuming the each round-off error term is bounded by the machine precision, $\epsilon$, then we get:
+  \[ |F^{\prime\prime\prime}(x_0) - f^{\prime\prime\prime}(x_0)| \leq \dfrac{6\epsilon}{2h^3} = \dfrac{3\epsilon}{h^3} \]
+
+  Thus, the round-off error grows inversely proportional to $h$. Hence, as h decreases, the round-off error increases, thus with $h->0$, the round-off error will tend to $\infty$ .
+
+  \part{d} We can obtain a fourth order formula in a similar manner as we obtained the third order formula with some minor changes. First evaluate $S1: f(x_0 + h) + f(x_0 - h)$, then evaluate $S2: f(x_0 + 2h) + f(x_0 - 2h)$. Then subtract $S2 - 4S1$, to extract the fourth order formula.
+
+  \question{Question-3}{Chapter-14: question-8}
+  Derivation of an approximate formulae for the second derivatives $f^{\prime\prime}(x_0)$ of a smooth function $f(x)$ using the three points $x_{-1},x_0 = x_{-1} + h_0, x_1=x_0 + h_1$, where $h_0 \neq h_1$. 
+
+  \part{a} To prove both the given approximations are the same, we need to show: $2[f_{x-1,x_0,x_1}] = \dfrac{g_{1/2} - g_{-1/2}}{(h_0+h_1)/2}$. \newline
+  \textbf {Proof:} \newline
+  Using divided difference, we can write:
+  \[2[f_{x-1,x_0,x_1}] = 2 \times \dfrac{\dfrac{f(x_1)-f(x_0)}{x_1 - x_0}-\dfrac{f(x_0) - f(x_{-1})}{x_0 - x_{-1}}}{x_1 - x_{-1}}\]
+  \[2[f_{x-1,x_0,x_1}] = 2 \times \dfrac{\dfrac{f(x_1)-f(x_0)}{h_1}-\dfrac{f(x_0) - f(x_{-1})}{h_0}}{h_1 + h_0}\]
+  Given, that: $g_{1/2} = \dfrac{f(x_1)-f(x_0)}{h_1}$ and $g_{-1/2} = \dfrac{f(x_0) - f(x_{-1})}{h_0},$ we can replace them to get:
+  \[2[f_{x-1,x_0,x_1}] = 2 \times \dfrac{g_{1/2}-g_{-1/2}}{h_1 + h_0}\]
+  \[2[f_{x-1,x_0,x_1}] = \dfrac{g_{1/2}-g_{-1/2}}{\dfrac{h_1 + h_0}{2}}\]
+
+  \part{b} To show that the method is only first order accurate, we use the Taylor series expansion upto second order with third order error term to derive the formualation:\newline
+  \[f(x_0 + h_1) = f(x_0) + h_1f^\prime(x_0) + \dfrac{h_1^2}{2}f^{\prime\prime}(x_0) + \dfrac{h_1^3}{3!}f^{\prime\prime\prime}(\zeta_1)\]
+  \[f(x_0 - h_0) = f(x_0) - h_0f^\prime(x_0) + \dfrac{h_0^2}{2}f^{\prime\prime}(x_0) - \dfrac{h_0^3}{3!}f^{\prime\prime\prime}(\zeta_2)\]
+  Which can be further simplified to:
+  \[\dfrac{f(x_1) - f(x_0)}{h_1} =  f^\prime(x_0) + \dfrac{h_1}{2}f^{\prime\prime}(x_0) + \dfrac{h_1^2}{3!}f^{\prime\prime\prime}(\zeta_1)\]
+  \[\dfrac{f(x_{-1}) - f(x_0)}{h_0} = -f^\prime(x_0) + \dfrac{h_0}{2}f^{\prime\prime}(x_0) - \dfrac{h_0^2}{3!}f^{\prime\prime\prime}(\zeta_2)\]
+
+  Adding these two, we get:
+  \[\dfrac{f(x_1) - f(x_0)}{h_1} - \dfrac{f(x_{0}) - f(x_{-1})}{h_0} = \dfrac{(h_0 + h_1)}{2}f^{\prime\prime}(x_0) + \dfrac{h_1^2}{3!}f^{\prime\prime\prime}(\zeta_1) - \dfrac{h_0^2}{3!}f^{\prime\prime\prime}(\zeta_2)\]
+
+  For the error term, replacing with a $\zeta$, such that $x_{-1} \leq \zeta \leq x_1$:
+  \[\dfrac{f(x_1) - f(x_0)}{h_1} - \dfrac{f(x_{0}) - f(x_{-1})}{h_0} = \dfrac{(h_0 + h_1)}{2}f^{\prime\prime}(x_0) + f^{\prime\prime\prime}(\zeta)(\dfrac{h_1^2}{3!} - \dfrac{h_0^2}{3!})\]
+
+  Rearranging to get the second order term:
+  \[f^{\prime\prime}(x_0) = \dfrac{\dfrac{f(x_1) - f(x_0)}{h_1} - \dfrac{f(x_{0}) - f(x_{-1})}{h_0}}{(h_0 + h_1)/2} - \mathbf{\dfrac{f^{\prime\prime\prime}(\zeta)(h_1 - h_0)}{3}}\]
+
+  The error term shown in bold is thus only first order,$O(h_0 + h_1)$ , accurate.
+
+  \part{c} Will be back soon
+
+
 
   
 
@@ -88,7 +133,7 @@
 
   Then, to find the error in the intergral of the polynomial, we can integrate the error of polynomial described above, in the interval [a,b]
   \[E(f) = \int_{a}^{b} f[a,a,b,b,x]\psi(x)\]
-  where $\psi(x) = \prod_{i=0}{i=3}(x - x_i) = (x-a)(x-a)(x-b)(x-b)$ \newline
+  where $\psi(x) = \prod_{i=0}^{i=3}(x - x_i) = (x-a)(x-a)(x-b)(x-b)$ \newline
   Notice that, since $x$ lies in the interval [a,b], hence $(x-a \geq 0) and (x-b \leq 0)$. In any case, the square of the terms will be greater than equal to 0. So, in the given interval $\psi(x) \geq 0$ always. Because $\psi(x)$ does not changes sign in the interval, then using the intermediate value theorem, there exists $a \leq \eta \leq b$, such that:
   \[E(f) = \int_{a}^{b} f[a,a,b,b,x]\psi(x) = \int_{a}^{b} f[a,a,b,b,\eta]\psi(x)\]
   where,
@@ -147,7 +192,7 @@
   \[E_{CM}(f) = \sum_{i=1}^r \dfrac{f^{\prime\prime}(\eta_i)}{24}h^3\]
 
   Since, $f^{\prime\prime}(\eta_i)$ is a constant in the interval $[t_{i-1},t_i]$, we can generalize it with an appropriate constant $f^{\prime\prime}(\eta)$ where $a \leq \eta \leq b$. Then the error expression comes to be:
-  \[ E_{CM}(f) = \dfrac{f^{\prime\prime}(\eta)}{24} \sim_{i=1}^{r} h.h^2\]
+  \[ E_{CM}(f) = \dfrac{f^{\prime\prime}(\eta)}{24} \sum_{i=1}^{r} h.h^2\]
   \[ E_{CM}(f) = \dfrac{f^{\prime\prime}(\eta)}{24} h^2.rh\]
   Since, $h = \dfrac{b-a}{r}$, so replacing $(b-a) = rh$, we get:
   \begin{equation}
@@ -166,16 +211,16 @@
 	  \label{eq:compSim}
   \end{equation}
   The expression for composite trapezoidal with step size $h$ is given by: \newline
-  \textbf {R1: Composite trapezoidal rule of step size h}
+  \textbf {R2: Composite trapezoidal rule of step size h}
   \[ \int_{a}^{b} \approx \dfrac{h}{2} \sum_{i=1}^{r} f(t_{i-1}) + f(t_i)\]
   \[R_2 = \dfrac{h}{2}[ f(a) + 2f(t_1) + 2f(t_2) + \dots + 2f(t_{r-1}) + f(b) ]\]
-  \textbf {R2: Composite trapezoidal rule of step size 2h}
+  \textbf {R1: Composite trapezoidal rule of step size 2h}
   For step-size of 2h, we reuqire even number of subintervals. In the above expression for summation,thus we change the summing variable $i$ to $2k$, and the limit become $\dfrac{r}{2}$ . Hence, we have:
-  \[R_2 = \dfrac{2h}{2}\sum_{k=1}^{\dfrac{r}{2}} f(t_{2k-2}) + f(t_{2k})\]
-  \[R_2 = h[ \{f(t_0) + f(t_2) + \dots + f(t_{r-2})\} + \{ f(t_2) + f(t_4) + \dots + f(t_r) \} ]\]
+  \[R_1 = \dfrac{2h}{2}\sum_{k=1}^{\dfrac{r}{2}} f(t_{2k-2}) + f(t_{2k})\]
+  \[R_1 = h[ \{f(t_0) + f(t_2) + \dots + f(t_{r-2})\} + \{ f(t_2) + f(t_4) + \dots + f(t_r) \} ]\]
   Since, $t_0$ and $t_r$ are the two extreme end points of the interval, hence $t_0 = a$ and $t_r = b$
   Thus, we get:
-  \[R_2 = h[f(a) + 2f(t_2) + 2f(t_4) + \dots + 2f(t_{r-2}) + f(b)]\]
+  \[R_1 = h[f(a) + 2f(t_2) + 2f(t_4) + \dots + 2f(t_{r-2}) + f(b)]\]
 
   Hence, evaluating $S = \dfrac{4R_2 - R_1}{3}$
   \[4R_2 - R_1\ = h[2f(a) + 4f(t_1) + 4f(t_2)+\dots+4f(t_{r-1}) + 2f(b)] - h[f(a) - 2f(t_2) - 2f(t_4) - \dots-f(b)]\]
