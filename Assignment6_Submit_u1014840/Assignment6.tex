@@ -202,7 +202,20 @@
 
   \end{longtable}
 
-	  The results are extremely inaccurate for an approximation of second order derivative of $e^x$ at $x=0$. This happens mainly because of round-off as we keep reducing h. Since, there are subtracting terms of very lose values, round-off  escalates the error to large values.
+	  The results are extremely inaccurate for an approximation of second order derivative of $e^x$ at $x=0$. This happens mainly because of round-off as we keep reducing h. Since, there are subtracting terms of very close values, round-off  escalates the error to large values.
+
+  
+
+  \question{Question-4}{Chapter-14, question-13}
+
+  \part{a} 
+	  \[f_{pp0} = \dfrac{(g_{1/2} - g_{-1/2})}{h} = \dfrac{\dfrac{f_1 - f_0}{h} - \dfrac{f_0 - f_{-1}}{h}}{h} = \dfrac{f_1 -2f_0 + f_{-1}}{h^2}\]
+	  Hence, it is same as the $f_{pp0}$ defined in Example 12. \newline
+  \part{b} Here we denote the two methods as:\newline
+	  \textbf{First Method:} $(f_1 - 2f_0 + f_1)/h^2$ \newline
+	  \textbf{Second Method:} $\dfrac{g_{1/2} - g_{-1/2}}{h}$, where $g_{1/2} = \dfrac{f_1 - f_0}{h}$ and $g_{-1/2} = \dfrac{f_0 - f_{-1}}{h}$.
+
+	  The below table reports the error/deviations of these methods from the true second order derivative for $f(x)=sin(x)$ at $x0=1.2$
 
   \begin{longtable}{c|c|c|c}
 	\caption{Second derivative approximation result for $sinx$ at $x=1.2$} \\
@@ -227,33 +240,24 @@ $10^{-6.0}$ & 0.000117879096870 & 0.000117879096870 & 0                 \\
 $10^{-6.5}$ & 0.001672191331345 & 0.001672191233429 & 0.097916452723723 \\
 $10^{-7.0}$ & 0.010553975528346 & 0.010553975528346 & 0.000000111022302 \\
 $10^{-7.5}$ & 0.154882968729617 & 0.154882969473164 & 0.743547445836157 \\
-	  $10^{-8.0}$ & 0.932039085967226 & 0.932039085967226 & 0 \\ [1ex]
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
+$10^{-8.0}$ & 0.932039085967226 & 0.932039085967226 & 0 \\ [1ex]
 	  
 	  
    \hline
 
   \end{longtable}
 	  
-  
+	 
+	  The below plots figure shows the error plots using the first and second method and the difference between the two methods(mainly due to round-off issues). 
+  \begin{figure}[H]
+   \centering
+  \includegraphics[width=16cm, height=12cm]{Prob4}
+  \caption{Error Plot for first and second method}
+  \end{figure}
 
-  \question{Question-4}{Chapter-14, question-13}
-  \part{b} Here we denote the two methods as:\newline
-	  \textbf{First Method:} $(f_1 - 2f_0 + f_1)/h^2$ \newline
-	  \textbf{Second Method:} $\dfrac{g_{1/2} - g_{-1/2}}{h}$, where $g_{1/2} = \dfrac{f_1 - f_0}{h}$ and $g_{-1/2} = \dfrac{f_0 - f_{-1}}{h}$.
+	  Both the plots have the similar feature of reducing truncation error with reducing h until it reaches a critical point where round off error starts to dominate and the error grow larger with reducing h. The difference plot shows the variation in the two methods. The second method is more prone to round-off errors due to more subtractions between very close numbers.
+	  
 
-	  The below table reports the error/deviations of these methods from the true second order derivative for $f(x)=sin(x)$ at $x0=1.2$
 
   \question{Question-5}{Chapter-14, question-15}
   Consider the numerical differentiation of the function, $f(x) = c(x)e^{x/\pi}$, defined on $[0,\pi]$, where
@@ -401,5 +405,19 @@ $10^{-7.5}$ & 0.154882968729617 & 0.154882969473164 & 0.743547445836157 \\
   \[4R_2 - R_1 = h[ f(a) + 2\sum_{k=1}^{\dfrac{r}{2}-1}f(t_{2k}) + 4\sum_{k=1}^{\dfrac{r}{2}}f(t_{2k-1}) + f(b)]\]
   \[\dfrac{4R_2 - R_1}{3} = \dfrac{h}{3}[ f(a) + 2\sum_{k=1}^{\dfrac{r}{2}-1}f(t_{2k}) + 4\sum_{k=1}^{\dfrac{r}{2}}f(t_{2k-1}) + f(b)]\]
   The rhs of the above is exactly the expression for the composite Simson's rule $\eqref{eq:compSim}$
+
+
+  \question{Question-9}{Chapter-15, question-14}
+  Here we implemnet the Romberg algorithm provided in the book. One heuristic choice made was to set the initial number of intervals to ,$r=1$, such that it starts with the basic form of the trapezoid with $h=(b-a)$. Since, the algorithm is adaptive, refining the mesh into finer ones as at every stage h gets halved, so we started with a max h. Some experiments starting with a small h did not converge. We use the $roundn$ function to get the desired 8digit limit for $\pi$ and then keep doing the recursive step until that 8digit accuracy is met within the given tolerance. Below is the table given from the Romberg implementation: \newline
+  $\begin{bmatrix}
+	  3.000000000000000 &                 0 &                 0 &                 0 &                 0 \\
+	  3.100000000000000 & 3.133333333333333 &                 0 &                 0 &                 0 \\
+	  3.131176470588235 & 3.141568627450980 & 3.142117647058823 &                 0 &                 0 \\
+	  3.138988494491089 & 3.141592502458707 & 3.141594094125888 & 3.141585783761874 &                 0 \\
+	  3.140941612041389 & 3.141592651224822 & 3.141592661142563 & 3.141592638396796 & 3.141592665277717 \\
+   \end{bmatrix}$
+
+   Hence, the approximation upto 8 digits will be $3.1415926$ .
+
 \end{document}
 
