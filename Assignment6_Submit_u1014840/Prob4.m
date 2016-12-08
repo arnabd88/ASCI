@@ -1,5 +1,5 @@
 
-
+format long
 func = @(x) sin(x)
 klist = 0:0.5:8
 x0 = 1.2;
@@ -22,6 +22,9 @@ for i=1:length(hlist)
 	methDiff(i) = abs(firstMethod(i) - secondMethod(i));
 end
 
+
+firstMethod
+secondMethod
 firstDiff
 secondDiff
 methDiff
