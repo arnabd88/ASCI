@@ -22,6 +22,10 @@ for i=1:length(hlist)
 	methDiff(i) = abs(firstMethod(i) - secondMethod(i));
 end
 
+firstDiff
+secondDiff
+methDiff
+
 subplot(2,2,1)
 loglog(hlist,firstDiff, '-s')
 xlabel('h')
