@@ -40,9 +40,54 @@
   \newcommand\HWNUM{4}
 
 
-  \question{Question-1}{Chapter-13}
-  l2-norm of quad = 0.53115307
-  l2-norm of cubic = 0.25287738
+  \question{Question-1}{Chapter-13, question-5}
+  \part{a} Given function, $f(t) = e^{-3t}$ on the interval [0,3]. Let $q_2(t)$ be the approximation of degree 2 and $q_3(t)$ be the approximation of degree 3. \newline
+  Let $\phi_0(t), \phi_1(t), \phi_2(t), \phi_3(t)$ be the polynomial basis functions.
+  We use the affine transformation to map them to the legendre polynomials as:
+  \[x = \dfrac{2t -a -b}{b-a} = \dfrac{2t - 3}{3}\]
+  Then , the basis functions in form of legendre polynomials become:
+  \[ \phi_0(t) = 1\]
+  \[ \phi_1(t) = \dfrac{2t-3}{3}\]
+  \[ \phi_2(t) = \dfrac{1}{2}[3\bigg (\dfrac{2t-3}{3}\bigg )^2 - 1]\]
+  \[ \phi_3(t) = \dfrac{1}{2}[5\bigg (  \dfrac{2t-3}{3}\bigg )^3 - 3\dfrac{2t-3}{3}]\]
+
+   \textbf{Note:} The evaluations are done in matlab. \newline
+  Next, we need to evaluate the matrix elements $B(j,k) = \int_{a}^{b}\phi_j(x)\phi_k(x)$. Since, the basis are orthogonal as we have chosen Legendre polynomials, hence we have only the diagonal elements: Thus:
+  \[ B_{0,0} = \int_{0}^{3} \phi_0(t)\phi_0(t) dt = 3 \]
+  \[ B_{1,1} = \int_{0}^{3} \phi_1(t)\phi_1(t) dt = 1 \]
+  \[ B_{2,2} = \int_{0}^{3} \phi_2(t)\phi_2(t) dt = 0.6 \]
+  \[ B_{3,3} = \int_{0}^{3} \phi_3(t)\phi_3(t) dt = 0.4280 \]
+
+  Next, evaluate the $b$ vector of the rhs whose elements are defined as: $b_j = \int_{a}^{b} \phi_j(t)f(t) dt$
+  \[b_0 = \int_{0}^{3} \phi_0(t)f(t) dt = 0.3333\]
+  \[b_1 = \int_{0}^{3} \phi_1(t)f(t) dt = -0.2593\]
+  \[b_2 = \int_{0}^{3} \phi_2(t)f(t) dt = 0.1604\]
+  \[b_3 = \int_{0}^{3} \phi_3(t)f(t) dt = -0.0811\]
+
+  Then, we can get the coefficients as: $c_j = \dfrac{b_j}{B_{j,j}}$ 
+  \[c_0 = \dfrac{b_0}{B_{0,0}} = 0.111\]
+  \[c_1 = \dfrac{b_1}{B_{1,1}} = -0.2593\]
+  \[c_2 = \dfrac{b_2}{B_{2,2}} = 0.2674\]
+  \[c_3 = \dfrac{b_3}{B_{3,3}} = -0.1892\]
+
+  Hence, the quadratic will be:
+  \[q_2(t) = c_0\phi_0(t) + c_1\phi_1(t) + c_2\phi_2(t) = 0.111 - 0.2593(\dfrac{2t-3}{3}) + 0.2674\dfrac{1}{2}[3\bigg (\dfrac{2t-3}{3}\bigg )^2 - 1]\]
+
+  And the cubic will be:
+  \[q_3(t) = c_0\phi_0(t) + c_1\phi_1(t) + c_2\phi_2(t) + c_3\phi_3(t) \] \[ 0.111 - 0.2593(\dfrac{2t-3}{3}) + 0.2674\dfrac{1}{2}[3\bigg (\dfrac{2t-3}{3}\bigg )^2 - 1] -0.1892\dfrac{1}{2}[5\bigg (  \dfrac{2t-3}{3}\bigg )^3 - 3\dfrac{2t-3}{3}]\]
+	The code implementation is in Prob1.m
+
+  \part{b} The below figure shows the plots for the qudratic, cubic and original plot in the first subplot, and the error plots for quadratic and cubic with respect to the orginal, in the second subplot.
+  \begin{figure}[H]
+   \centering
+  \includegraphics[width=12cm, height=12cm]{Prob1}
+  \caption{Quadratic and Cubic Polynomial Approximation}
+  \end{figure}
+
+  As the plot shows, the cubic polynomial(yellow line) very closely approximates the original than the quadratic one. The error plot also suggests, that the error magnitude mostly is much higher for the quadratic polynomial than the cubic polynomial. The evaluated l2norm of the error functions, gives \textbf {l2-norm of quad = 0.53115307} and \textbf{l2-norm of cubic = 0.25287738}, indicating that the cubic is a better approximating polynomial in this case. \newline
+
+  \part{c} For orthogonal basis functions, we have $\int_{a}^{b} \phi_j \phi_k = 0, for j\neq k$. Thus, each additional orthogonal basis added to the approximating polynomial aims to reduce the residual from the previous set of basis functions. Since, it always reduces the residue , it cannot make the approximating polynomial any worse than the lower degree polynomial.
+  
 
   \question{Question-2}{Chapter-14, question-2}
   Let f(x) be a given function that can be evaluated at points $x_o \pm jh, j=0,1,2,\dots$ for any fixed value of h, $0 < h << 1$. \newline
@@ -79,6 +124,23 @@
 
   $\eqref{eq:3deriv}$ provides the formula for approximating the third derivative $f^{\prime\prime\prime}(x_0)$, with the bold test showing the component of the truncation error:
   Thus, truncation error = $\mathbf{\dfrac{-h^2}{4}f^{\prime\prime\prime\prime\prime}(\zeta)}$
+
+  \part{d} The below figure shows the plot of the approximated 3rd derivative derived as above.
+  \begin{figure}[H]
+   \centering
+  \includegraphics[width=12cm, height=12cm]{Prob2}
+  \caption{Approximated 3rd derivative}
+  \end{figure}
+  
+  As the figure suggests, beyond $h=10^{-5}$, the round-off error dominates. Since the true value of the function is 1 at $x=0$, hence the deviation of the curve from the x-axis depicts the magnitude iof the error due to increasing round-off with reducing values of h. However, for larger values of h, it is quite accurate. We plot an expanded plot in the range where it shows high accuracy as below:
+  \begin{figure}[H]
+   \centering
+  \includegraphics[width=12cm, height=12cm]{Prob2_quad}
+  \caption{Improved accuracy at higher h}
+  \end{figure}
+
+  As the parabolic shape of the curve suggests that the approximation is indeed second order accurate for large values of h. Best value of approximation we get for $h \approx 10^{-3}$. \newline
+
 
   \part{c} To derive the expression for the round-off error, we denote the floating point evaluations of $f$ by $F$. Thus the expression for round off error will be $|F^{\prime\prime\prime}(x_0) - f^{\prime\prime\prime}(x_0)|$ \[ = \bigg |  \dfrac{F(x_0 + 2h) - F(x_0 - 2h) - 2F(x_0 + h) + 2F(x_0-h)}{2h^3} - \dfrac{f(x_0 + 2h) - f(x_0 - 2h) - 2f(x_0 + h) + 2f(x_0-h)}{2h^3} \bigg |\]
   \[= \bigg |  \dfrac{e_r(x_0+2h) - e_r(x_0-2h) -2e_r(x_0+h) + 2e_r(x_0-h)}{2h^3}  \bigg |\]
@@ -121,10 +183,77 @@
 
   The error term shown in bold is thus only first order,$O(h_0 + h_1)$ , accurate.
 
-  \part{c} Will be back soon
+  
+
+  \part{c} The matlab code file is $Prob3.m$, where we run the two methods above for second derivative approximation of first order accuracy for the given values of h, around the point $x_0 = 0$. Both methods do not show any deviation from each other, that is, their mutual difference is zero.
+  Thus, the table will be :
+  \begin{longtable}{c|c|c|c}
+	\caption{Second derivative approximation result for $e^x$ at $x=0$} \\
+  %\centering
+  %\begin{tabular}{c c c c}
+  \hline\hline
+	  h & firstMethod & secondMethod & difference \\ [0.5ex]
+	  1.0e-1 & 14.0227 &  14.0227 & 0 \\
+	  1.0e-2 & 134.00 &   134.00 & 0 \\
+	  1.0e-3 & -1334.00 & -1334.00 & 0 \\
+	  1.0e-4 & 13334.00 & 13334.00 & 0 \\
+	  1.0e-5 & 133334.00 & 133334.00 & 0  \\
+  \hline
+
+  \end{longtable}
+
+	  The results are extremely inaccurate for an approximation of second order derivative of $e^x$ at $x=0$. This happens mainly because of round-off as we keep reducing h. Since, there are subtracting terms of very lose values, round-off  escalates the error to large values.
+
+  \begin{longtable}{c|c|c|c}
+	\caption{Second derivative approximation result for $sinx$ at $x=1.2$} \\
+  %\centering
+  %\begin{tabular}{c c c c}
+  \hline\hline
+	  h & firstMethod & secondMethod & difference \\ [0.5ex]
+  
+$10^{0}$ & 0.075126648647425 & 0.075126648647425 & 0 \\
+$10^{-0.5}$ & 0.007741148589218 & 0.007741148589218 & 0 \\
+$10^{-1.0}$ & 0.000776440384795 & 0.000776440384795 & 0.000000222044605 \\
+$10^{-1.5}$ & 0.000077667334949 & 0.000077667334949 & 0.000000777156117 \\
+$10^{-2.0}$ & 0.000007766966345 & 0.000007766966345 & 0                 \\
+$10^{-2.5}$ & 0.000000776702422 & 0.000000776702429 & 0.000006661338148 \\
+$10^{-3.0}$ & 0.000000077772619 & 0.000000077772619 & 0                 \\
+$10^{-3.5}$ & 0.000000008938792 & 0.000000008938954 & 0.000162203583898 \\
+$10^{-4.0}$ & 0.000000006718345 & 0.000000006718345 & 0                 \\
+$10^{-4.5}$ & 0.000000084433957 & 0.000000084433986 & 0.000028532731733 \\
+$10^{-5.0}$ & 0.000001305679284 & 0.000001305679284 & 0.000000111022302 \\
+$10^{-5.5}$ & 0.000006856794407 & 0.000006856780840 & 0.013567702517037 \\
+$10^{-6.0}$ & 0.000117879096870 & 0.000117879096870 & 0                 \\
+$10^{-6.5}$ & 0.001672191331345 & 0.001672191233429 & 0.097916452723723 \\
+$10^{-7.0}$ & 0.010553975528346 & 0.010553975528346 & 0.000000111022302 \\
+$10^{-7.5}$ & 0.154882968729617 & 0.154882969473164 & 0.743547445836157 \\
+	  $10^{-8.0}$ & 0.932039085967226 & 0.932039085967226 & 0 \\ [1ex]
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+   \hline
+
+  \end{longtable}
+	  
+  
 
   \question{Question-4}{Chapter-14, question-13}
-  Will be back soon
+  \part{b} Here we denote the two methods as:\newline
+	  \textbf{First Method:} $(f_1 - 2f_0 + f_1)/h^2$ \newline
+	  \textbf{Second Method:} $\dfrac{g_{1/2} - g_{-1/2}}{h}$, where $g_{1/2} = \dfrac{f_1 - f_0}{h}$ and $g_{-1/2} = \dfrac{f_0 - f_{-1}}{h}$.
+
+	  The below table reports the error/deviations of these methods from the true second order derivative for $f(x)=sin(x)$ at $x0=1.2$
 
   \question{Question-5}{Chapter-14, question-15}
   Consider the numerical differentiation of the function, $f(x) = c(x)e^{x/\pi}$, defined on $[0,\pi]$, where
@@ -187,7 +316,7 @@
   \[E(f) = K \int_{a}^{b} (x-a)^2(x-b)^2 \]
   Doing integration by parts:
   \[E(f) = K\bigg [ \dfrac{(x-a)^2(x-b)^3}{3} - \dfrac{(x-a)(x-b)^4}{6} + \dfrac{(x - b)^5}{30}    \bigg ]_{a}^{b} = \dfrac{-(a-b)^5}{30}\]
-  Replacijng back K,we get:
+  Replacing back K,we get:
   \[E(f) = \dfrac{f^{\prime\prime\prime\prime}(\eta)}{4!}\dfrac{(-(a-b)^5)}{30} = \dfrac{f^{\prime\prime\prime\prime}(\eta)(b-a)^5}{720} \]
 
   \part{b} The integral for the corrected trapezoidal is written is:
@@ -256,7 +385,7 @@
   \end{equation}
   The expression for composite trapezoidal with step size $h$ is given by: \newline
   \textbf {R2: Composite trapezoidal rule of step size h}
-  \[ \int_{a}^{b} \approx \dfrac{h}{2} \sum_{i=1}^{r} f(t_{i-1}) + f(t_i)\]
+  \[ \int_{a}^{b}f(x)dx \approx \dfrac{h}{2} \sum_{i=1}^{r} f(t_{i-1}) + f(t_i)\]
   \[R_2 = \dfrac{h}{2}[ f(a) + 2f(t_1) + 2f(t_2) + \dots + 2f(t_{r-1}) + f(b) ]\]
   \textbf {R1: Composite trapezoidal rule of step size 2h}
   For step-size of 2h, we reuqire even number of subintervals. In the above expression for summation,thus we change the summing variable $i$ to $2k$, and the limit become $\dfrac{r}{2}$ . Hence, we have:
