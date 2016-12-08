@@ -408,6 +408,7 @@ $10^{-8.0}$ & 0.932039085967226 & 0.932039085967226 & 0 \\ [1ex]
 
 
   \question{Question-9}{Chapter-15, question-14}
+  Code available at Prob9.m. \newline
   Here we implemnet the Romberg algorithm provided in the book. One heuristic choice made was to set the initial number of intervals to ,$r=1$, such that it starts with the basic form of the trapezoid with $h=(b-a)$. Since, the algorithm is adaptive, refining the mesh into finer ones as at every stage h gets halved, so we started with a max h. Some experiments starting with a small h did not converge. We use the $roundn$ function to get the desired 8digit limit for $\pi$ and then keep doing the recursive step until that 8digit accuracy is met within the given tolerance. Below is the table given from the Romberg implementation: \newline
   $\begin{bmatrix}
 	  3.000000000000000 &                 0 &                 0 &                 0 &                 0 \\
@@ -417,7 +418,11 @@ $10^{-8.0}$ & 0.932039085967226 & 0.932039085967226 & 0 \\ [1ex]
 	  3.140941612041389 & 3.141592651224822 & 3.141592661142563 & 3.141592638396796 & 3.141592665277717 \\
    \end{bmatrix}$
 
-   Hence, the approximation upto 8 digits will be $3.1415926$ .
+   Hence, the approximation upto 8 digits will be $3.1415926$ . \newline
+
+   The number of iterations required here is 4. Thus the number of function evaluations is roughly $\sum_{j=1}^s 2^{j-1} \approx 2^s + 1 = 17$. \newline
+
+   The error for the composite trapezoid is second order accurate, that is, it goes down as $h^2$. Using , the extrapolation between different step sizes, we are able to cancel out leading error terms further, which results in faster convergence or less initial error. That is why, in some entries of the table, during the first fill-up of those entries, we reached the necessary convergence, thus no further improvements were seen in next iterations. \newline
 
 \end{document}
 
